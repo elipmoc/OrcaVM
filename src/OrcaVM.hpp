@@ -10,6 +10,8 @@
 
 #define Debug
 
+#define Static_Memory_Size 100000
+
 enum class InstructionCodeType //命令コードの種類
 {
     Push_I,Push_F,Push_S,Push_B,
@@ -39,6 +41,10 @@ enum class InstructionCodeType //命令コードの種類
     E_I,E_F,
 
     NE_I,NE_F,
+
+    G_Store_I,G_Store_F,G_Store_S,G_Store_B,
+
+    G_Load_I,G_Load_F,G_Load_S,G_Load_B,
 };
 
 struct InstructionCode //命令コード

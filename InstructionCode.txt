@@ -32,6 +32,32 @@ E_F
 NE_I
 NE_F
 
+*** Memory ***
+
+Store_I
+Store_F
+Store_S
+Store_B
+
+Load_I
+Load_F
+Load_S
+Load_B
+
+G_Store_I
+G_Store_F
+G_Store_S
+G_Store_B
+
+G_Load_I
+G_Load_F
+G_Load_S
+G_Load_B
+
+*** Function ***
+
+Invoke Label
+
 *** Jump ***
 
 Jump

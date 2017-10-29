@@ -6,6 +6,13 @@ ExecuteCode::ExecuteCode(const std::vector<InstructionCode>& code,const int entr
     this->code_counter=entry_point;
     this->code=code;
     this->init_code_translater();
+
+    static_memory=new Memory[Static_Memory_Size];
+}
+
+ExecuteCode::~ExecuteCode()
+{
+    delete[] static_memory;
 }
 
 void ExecuteCode::init_code_translater()
@@ -40,6 +47,14 @@ void ExecuteCode::init_code_translater()
     code_translater[InstructionCodeType::Jump]=&ExecuteCode::jump;
     code_translater[InstructionCodeType::Jump_True]=&ExecuteCode::jump_true;
     code_translater[InstructionCodeType::Jump_False]=&ExecuteCode::jump_false;
+    code_translater[InstructionCodeType::G_Store_I]=&ExecuteCode::g_store_i;
+    code_translater[InstructionCodeType::G_Store_F]=&ExecuteCode::g_store_f;
+    code_translater[InstructionCodeType::G_Store_S]=&ExecuteCode::g_store_s;
+    code_translater[InstructionCodeType::G_Store_B]=&ExecuteCode::g_store_b;
+    code_translater[InstructionCodeType::G_Load_I]=&ExecuteCode::g_load_i;
+    code_translater[InstructionCodeType::G_Load_F]=&ExecuteCode::g_load_f;
+    code_translater[InstructionCodeType::G_Load_S]=&ExecuteCode::g_load_s;
+    code_translater[InstructionCodeType::G_Load_B]=&ExecuteCode::g_load_b;
 }
 
 
@@ -414,4 +429,64 @@ void ExecuteCode::jump_false()
     {
         code_counter=code[code_counter].opr_i;
     }
+}
+
+
+/*** Global Store/Load (Static Memory) ***/
+
+
+void ExecuteCode::g_store_i()
+{
+    static_memory[code[code_counter].opr_i].i_val=pop().i_val;
+}
+
+void ExecuteCode::g_store_f()
+{
+    static_memory[code[code_counter].opr_i].f_val=pop().f_val;
+}
+
+void ExecuteCode::g_store_s()
+{
+    static_memory[code[code_counter].opr_i].s_val=pop().s_val;
+}
+
+void ExecuteCode::g_store_b()
+{
+    static_memory[code[code_counter].opr_i].b_val=pop().b_val;
+}
+
+void ExecuteCode::g_load_i()
+{
+    Stack st;
+
+    st.i_val=static_memory[code[code_counter].opr_i].i_val;
+
+    data_stack.push(st);
+}
+
+void ExecuteCode::g_load_f()
+{
+    Stack st;
+
+    st.f_val=static_memory[code[code_counter].opr_i].f_val;
+
+    data_stack.push(st);
+}
+
+void ExecuteCode::g_load_s()
+{
+    Stack st;
+
+    st.s_val=static_memory[code[code_counter].opr_i].s_val;
+
+    data_stack.push(st);
+}
+
+void ExecuteCode::g_load_b()
+{
+    Stack st;
+
+    st.b_val=static_memory[code[code_counter].opr_i].b_val;
+
+    data_stack.push(st);
 }

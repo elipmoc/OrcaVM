@@ -9,6 +9,14 @@ struct Stack
     bool b_val;
 };
 
+struct Memory
+{
+    int i_val;
+    double f_val;
+    std::string s_val;
+    bool b_val;
+};
+
 class ExecuteCode
 {
     private:
@@ -20,6 +28,8 @@ class ExecuteCode
         std::unordered_map<InstructionCodeType,void (ExecuteCode::*)()> code_translater;
 
         std::stack<Stack> data_stack;
+
+        Memory *static_memory;
 
         inline Stack pop();
 
@@ -59,11 +69,22 @@ class ExecuteCode
         void jump_true();
         void jump_false();
         
+        void g_store_i();
+        void g_store_f();
+        void g_store_s();
+        void g_store_b();
+
+        void g_load_i();
+        void g_load_f();
+        void g_load_s();
+        void g_load_b();
+
         void init_code_translater();
 
     public:
 
         ExecuteCode(const std::vector<InstructionCode>&,const int);
+        ~ExecuteCode();
 
         void execute();
 
