@@ -33,6 +33,8 @@ int main(int argc,char **argv)
     generator.AddCode(InstructionCodeType::Push_I,3);
     generator.AddCode(InstructionCodeType::Push_I,2);
     generator.AddCode(InstructionCodeType::G_I);
+    generator.AddCode(InstructionCodeType::Push_F,5.2);
+    generator.AddCode(InstructionCodeType::Push_S,"ABC");
 
     ExecuteCode exec(generator.get_code(),0);
 
