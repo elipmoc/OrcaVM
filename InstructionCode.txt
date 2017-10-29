@@ -17,6 +17,21 @@ Div_I
 Div_F
 Mod_I
 
+*** Compare ***
+
+L_I
+L_F
+G_I
+G_F
+LE_I
+LE_F
+GE_I
+GE_F
+E_I
+E_F
+NE_I
+NE_F
+
 *** Jump ***
 
 Jump

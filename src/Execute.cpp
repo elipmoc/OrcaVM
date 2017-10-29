@@ -23,6 +23,18 @@ void ExecuteCode::init_code_translater()
     code_translater[InstructionCodeType::Div_I]=&ExecuteCode::div_i;
     code_translater[InstructionCodeType::Div_F]=&ExecuteCode::div_f;
     code_translater[InstructionCodeType::Mod_I]=&ExecuteCode::mod_i;
+    code_translater[InstructionCodeType::L_I]=&ExecuteCode::l_i;
+    code_translater[InstructionCodeType::L_F]=&ExecuteCode::l_f;
+    code_translater[InstructionCodeType::G_I]=&ExecuteCode::g_i;
+    code_translater[InstructionCodeType::G_F]=&ExecuteCode::g_f;
+    code_translater[InstructionCodeType::LE_I]=&ExecuteCode::le_i;
+    code_translater[InstructionCodeType::LE_F]=&ExecuteCode::le_f;
+    code_translater[InstructionCodeType::GE_I]=&ExecuteCode::ge_i;
+    code_translater[InstructionCodeType::GE_F]=&ExecuteCode::ge_f;
+    code_translater[InstructionCodeType::E_I]=&ExecuteCode::e_i;
+    code_translater[InstructionCodeType::E_F]=&ExecuteCode::e_f;
+    code_translater[InstructionCodeType::NE_I]=&ExecuteCode::ne_i;
+    code_translater[InstructionCodeType::NE_F]=&ExecuteCode::ne_f;    
     code_translater[InstructionCodeType::Output]=&ExecuteCode::output;
     code_translater[InstructionCodeType::Input]=&ExecuteCode::input;
     code_translater[InstructionCodeType::Jump]=&ExecuteCode::jump;
@@ -31,7 +43,7 @@ void ExecuteCode::init_code_translater()
 }
 
 
-//***************Execute*****************//
+/*** Execute ***/
 
 
 void ExecuteCode::execute()
@@ -45,7 +57,39 @@ void ExecuteCode::execute()
 }
 
 
-/***Pop Stack ***/
+/*** dump stack ***/
+
+
+void ExecuteCode::dump_stack()
+{
+    std::cout<<"*** stack dump start ***\n"<<std::endl;
+
+    if(data_stack.size()==0)
+    {
+        std::cout<<"stack -> [empty]"<<std::endl;
+        return;
+    }
+
+    for(int stack_counter=1;data_stack.size()!=0;++stack_counter)
+    {
+        Stack st=data_stack.top();
+        data_stack.pop();
+
+        std::cout<<"[stack deep] : "<<stack_counter<<std::endl;
+
+        std::cout<<"+ integer_value : "<<st.i_val<<std::endl;
+        std::cout<<"+ float_value : "<<st.f_val<<std::endl;
+        std::cout<<"+ string_value : "<<st.s_val<<std::endl;
+        std::cout<<"+ boolean_value : "<<st.b_val<<std::endl;
+
+        std::cout<<"\n"<<std::flush;
+    }
+
+    std::cout<<"*** stack dump end ***"<<std::endl;
+}
+
+
+/*** Pop Stack ***/
 
 
 inline Stack ExecuteCode::pop()
@@ -193,6 +237,143 @@ void ExecuteCode::mod_i()
 }
 
 
+/*** Compare L_I/L_F/G_I/G_F/LE_I/LE_F/GE_I/GE_F/E_I/E_F/NE_I/NE_F ***/
+
+
+void ExecuteCode::l_i()
+{
+    int comp_buf=pop().i_val;
+
+    Stack st;
+
+    st.b_val=pop().i_val<comp_buf;
+
+    data_stack.push(st);
+}
+
+void ExecuteCode::l_f()
+{
+    double comp_buf=pop().f_val;
+
+    Stack st;
+
+    st.b_val=pop().f_val<comp_buf;
+
+    data_stack.push(st);
+}
+
+void ExecuteCode::g_i()
+{
+    int comp_buf=pop().i_val;
+
+    Stack st;
+
+    st.b_val=pop().i_val>comp_buf;
+
+    data_stack.push(st);
+}
+
+void ExecuteCode::g_f()
+{
+    double comp_buf=pop().f_val;
+
+    Stack st;
+
+    st.b_val=pop().f_val>comp_buf;
+
+    data_stack.push(st);
+}
+
+
+void ExecuteCode::le_i()
+{
+    int comp_buf=pop().i_val;
+
+    Stack st;
+
+    st.b_val=pop().i_val<=comp_buf;
+
+    data_stack.push(st);
+}
+
+void ExecuteCode::le_f()
+{
+    double comp_buf=pop().f_val;
+
+    Stack st;
+
+    st.b_val=pop().f_val<=comp_buf;
+
+    data_stack.push(st);
+}
+
+void ExecuteCode::ge_i()
+{
+    int comp_buf=pop().i_val;
+
+    Stack st;
+
+    st.b_val=pop().i_val>=comp_buf;
+
+    data_stack.push(st);
+}
+
+void ExecuteCode::ge_f()
+{
+    double comp_buf=pop().f_val;
+
+    Stack st;
+
+    st.b_val=pop().f_val>=comp_buf;
+
+    data_stack.push(st);
+}
+
+void ExecuteCode::e_i()
+{
+    int comp_buf=pop().i_val;
+
+    Stack st;
+
+    st.b_val=pop().i_val==comp_buf;
+
+    data_stack.push(st);
+}
+
+void ExecuteCode::e_f()
+{
+    double comp_buf=pop().f_val;
+
+    Stack st;
+
+    st.b_val=pop().f_val==comp_buf;
+
+    data_stack.push(st);
+}
+
+void ExecuteCode::ne_i()
+{
+    int comp_buf=pop().i_val;
+
+    Stack st;
+
+    st.b_val=pop().i_val!=comp_buf;
+
+    data_stack.push(st);
+}
+
+void ExecuteCode::ne_f()
+{
+    double comp_buf=pop().f_val;
+
+    Stack st;
+
+    st.b_val=pop().f_val!=comp_buf;
+
+    data_stack.push(st);
+}
+
+
 /*** Standard Input/Output ***/
 
 
@@ -214,12 +395,12 @@ void ExecuteCode::input()
 /*** Jump ***/
 
 
-void jump()
+void ExecuteCode::jump()
 {
     code_counter=code[code_counter].opr_i;
 }
 
-void jump_true()
+void ExecuteCode::jump_true()
 {
     if(pop().b_val)
     {
@@ -227,7 +408,7 @@ void jump_true()
     }
 }
 
-void jump_false()
+void ExecuteCode::jump_false()
 {
     if(!pop().b_val)
     {

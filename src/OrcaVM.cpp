@@ -6,9 +6,11 @@ int main(int argc,char **argv)
 {
     int opt=0;
 
+    bool dump_stack_flag=false;
+
     if(argc>1)
     {
-        while((opt=getopt(argc,argv,"o:"))!=1) //オプションの解析
+        while((opt=getopt(argc,argv,"do:"))!=-1) //オプションの解析
         {
             switch(opt)
             {
@@ -16,9 +18,11 @@ int main(int argc,char **argv)
                     std::cout<<optarg<<std::endl;
                     break;
 
+                case 'd':
+                    dump_stack_flag=true;
+                    break;
+
                 default:
-                    std::cout<<"invalid option"<<std::endl;
-                    opterr=1;
                     break;
             }
         }
@@ -26,12 +30,15 @@ int main(int argc,char **argv)
 
     CodeGenerator generator;
 
-    generator.AddCode(InstructionCodeType::Input);
-    generator.AddCode(InstructionCodeType::Output);
+    generator.AddCode(InstructionCodeType::Push_I,3);
+    generator.AddCode(InstructionCodeType::Push_I,2);
+    generator.AddCode(InstructionCodeType::G_I);
 
     ExecuteCode exec(generator.get_code(),0);
 
     exec.execute();
+
+    if(dump_stack_flag)exec.dump_stack();
 
     return 0;
 }

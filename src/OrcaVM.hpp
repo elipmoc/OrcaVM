@@ -27,6 +27,18 @@ enum class InstructionCodeType //命令コードの種類
     Output,Input,
 
     Jump,Jump_True,Jump_False,
+
+    L_I,L_F,
+    
+    LE_I,LE_F,
+
+    G_I,G_F,
+    
+    GE_I,GE_F,
+
+    E_I,E_F,
+
+    NE_I,NE_F,
 };
 
 struct InstructionCode //命令コード

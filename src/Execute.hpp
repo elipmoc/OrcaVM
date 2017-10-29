@@ -38,6 +38,19 @@ class ExecuteCode
         void div_f();
         void mod_i();
 
+        void l_i();
+        void l_f();
+        void g_i();
+        void g_f();
+        void le_i();
+        void le_f();
+        void ge_i();
+        void ge_f();
+        void e_i();
+        void e_f();
+        void ne_i();
+        void ne_f();
+
         void output();
 
         void input();
@@ -53,6 +66,8 @@ class ExecuteCode
         ExecuteCode(const std::vector<InstructionCode>&,const int);
 
         void execute();
+
+        void dump_stack();
 };
 
 #endif
