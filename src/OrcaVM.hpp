@@ -14,15 +14,19 @@ enum class InstructionCodeType //命令コードの種類
 {
     Push_I,Push_F,Push_S,Push_B,
 
-    AddI,AddF,
+    Add_I,Add_F,
 
-    SubI,SubF,
+    Sub_I,Sub_F,
 
-    MulI,MulF,
+    Mul_I,Mul_F,
 
-    DivI,DivF,
+    Div_I,Div_F,
 
-    ModI,
+    Mod_I,
+
+    Output,Input,
+
+    Jump,Jump_True,Jump_False,
 };
 
 struct InstructionCode //命令コード

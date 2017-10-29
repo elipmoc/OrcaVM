@@ -1,0 +1,29 @@
+*** Push ***
+
+Push_I
+Push_F
+Push_S
+Push_B
+
+*** Calc ***
+
+Add_I
+Add_F
+Sub_I
+Sub_F
+Mul_I
+Mul_F
+Div_I
+Div_F
+Mod_I
+
+*** Jump ***
+
+Jump
+Jump_True
+Jump_False
+
+*** Others ***
+
+Output
+Input

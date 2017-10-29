@@ -37,6 +37,14 @@ class ExecuteCode
         void div_i();
         void div_f();
         void mod_i();
+
+        void output();
+
+        void input();
+
+        void jump();
+        void jump_true();
+        void jump_false();
         
         void init_code_translater();
 

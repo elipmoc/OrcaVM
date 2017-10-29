@@ -26,9 +26,8 @@ int main(int argc,char **argv)
 
     CodeGenerator generator;
 
-    generator.AddCode(InstructionCodeType::Push_I,32);
-    generator.AddCode(InstructionCodeType::Push_I,33);
-    generator.AddCode(InstructionCodeType::SubI);
+    generator.AddCode(InstructionCodeType::Input);
+    generator.AddCode(InstructionCodeType::Output);
 
     ExecuteCode exec(generator.get_code(),0);
 

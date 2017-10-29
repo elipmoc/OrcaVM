@@ -14,15 +14,20 @@ void ExecuteCode::init_code_translater()
     code_translater[InstructionCodeType::Push_F]=&ExecuteCode::push_f;
     code_translater[InstructionCodeType::Push_S]=&ExecuteCode::push_s;
     code_translater[InstructionCodeType::Push_B]=&ExecuteCode::push_b;
-    code_translater[InstructionCodeType::AddI]=&ExecuteCode::add_i;
-    code_translater[InstructionCodeType::AddF]=&ExecuteCode::add_f;
-    code_translater[InstructionCodeType::SubI]=&ExecuteCode::sub_i;
-    code_translater[InstructionCodeType::SubF]=&ExecuteCode::sub_f;
-    code_translater[InstructionCodeType::MulI]=&ExecuteCode::mul_i;
-    code_translater[InstructionCodeType::MulF]=&ExecuteCode::mul_f;
-    code_translater[InstructionCodeType::DivI]=&ExecuteCode::div_i;
-    code_translater[InstructionCodeType::DivF]=&ExecuteCode::div_f;
-    code_translater[InstructionCodeType::ModI]=&ExecuteCode::mod_i;
+    code_translater[InstructionCodeType::Add_I]=&ExecuteCode::add_i;
+    code_translater[InstructionCodeType::Add_F]=&ExecuteCode::add_f;
+    code_translater[InstructionCodeType::Sub_I]=&ExecuteCode::sub_i;
+    code_translater[InstructionCodeType::Sub_F]=&ExecuteCode::sub_f;
+    code_translater[InstructionCodeType::Mul_I]=&ExecuteCode::mul_i;
+    code_translater[InstructionCodeType::Mul_F]=&ExecuteCode::mul_f;
+    code_translater[InstructionCodeType::Div_I]=&ExecuteCode::div_i;
+    code_translater[InstructionCodeType::Div_F]=&ExecuteCode::div_f;
+    code_translater[InstructionCodeType::Mod_I]=&ExecuteCode::mod_i;
+    code_translater[InstructionCodeType::Output]=&ExecuteCode::output;
+    code_translater[InstructionCodeType::Input]=&ExecuteCode::input;
+    code_translater[InstructionCodeType::Jump]=&ExecuteCode::jump;
+    code_translater[InstructionCodeType::Jump_True]=&ExecuteCode::jump_true;
+    code_translater[InstructionCodeType::Jump_False]=&ExecuteCode::jump_false;
 }
 
 
@@ -37,12 +42,10 @@ void ExecuteCode::execute()
     {
         (this->*code_translater[code[code_counter].type])();
     }
-
-    std::cout<<data_stack.top().i_val<<std::endl;
 }
 
 
-//***************Pop*****************//
+/***Pop Stack ***/
 
 
 inline Stack ExecuteCode::pop()
@@ -55,7 +58,7 @@ inline Stack ExecuteCode::pop()
 }
 
 
-//***************Push*****************//
+/*** Push PushI/PushF/PushS/PushB ***/
 
 
 void ExecuteCode::push_i()
@@ -95,7 +98,7 @@ void ExecuteCode::push_b()
 }
 
 
-//***************Calculate*****************//
+/*** Calculate Add/Sub/Mul/Div/Mod ***/
 
 
 void ExecuteCode::add_i()
@@ -187,4 +190,47 @@ void ExecuteCode::mod_i()
     st.i_val=pop().i_val%buf;
 
     data_stack.push(st);
+}
+
+
+/*** Standard Input/Output ***/
+
+
+void ExecuteCode::output()
+{
+    printf("%s",pop().s_val.c_str());
+}
+
+void ExecuteCode::input()
+{
+    Stack st;
+
+    std::cin>>st.s_val;
+
+    data_stack.push(st);
+}
+
+
+/*** Jump ***/
+
+
+void jump()
+{
+    code_counter=code[code_counter].opr_i;
+}
+
+void jump_true()
+{
+    if(pop().b_val)
+    {
+        code_counter=code[code_counter].opr_i;
+    }
+}
+
+void jump_false()
+{
+    if(!pop().b_val)
+    {
+        code_counter=code[code_counter].opr_i;
+    }
 }
