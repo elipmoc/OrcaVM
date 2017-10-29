@@ -8,6 +8,10 @@ int main(int argc,char **argv)
 
     bool dump_stack_flag=false;
 
+    bool file_read_flag=false;
+
+    char *filename;
+
     if(argc>1)
     {
         while((opt=getopt(argc,argv,"do:"))!=-1) //オプションの解析
@@ -15,7 +19,8 @@ int main(int argc,char **argv)
             switch(opt)
             {
                 case 'o':
-                    std::cout<<optarg<<std::endl;
+                    filename=optarg;
+                    file_read_flag=true;
                     break;
 
                 case 'd':
@@ -28,17 +33,14 @@ int main(int argc,char **argv)
         }
     }
 
-    CodeGenerator generator;
+    if(file_read_flag)
+    {
+        ExecuteCode exec(generator.get_code(),0);
 
-    generator.AddCode(InstructionCodeType::Push_I,12);
-    generator.AddCode(InstructionCodeType::G_Store_I,3);
-    generator.AddCode(InstructionCodeType::G_Load_I,3);
+        exec.execute();
 
-    ExecuteCode exec(generator.get_code(),0);
-
-    exec.execute();
-
-    if(dump_stack_flag)exec.dump_stack();
+        if(dump_stack_flag)exec.dump_stack();
+    }
 
     return 0;
 }

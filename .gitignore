@@ -1,3 +1,4 @@
 bin/orcavm
 bin/*.dep
 bin/*.o
+src/y.tab.c
