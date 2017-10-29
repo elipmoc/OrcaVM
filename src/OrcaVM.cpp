@@ -6,29 +6,29 @@ int main(int argc,char **argv)
 {
     int opt=0;
 
-    #ifndef Debug
-
-    while((opt=getopt(argc,argv,"o:"))!=1) //オプションの解析
+    if(argc>1)
     {
-        switch(opt)
+        while((opt=getopt(argc,argv,"o:"))!=1) //オプションの解析
         {
-            case 'o':
-                std::cout<<optarg<<std::endl;
-                break;
+            switch(opt)
+            {
+                case 'o':
+                    std::cout<<optarg<<std::endl;
+                    break;
 
-            default:
-                std::cerr<<"不正なオプションです"<<std::endl;
-                return -1;
+                default:
+                    std::cout<<"invalid option"<<std::endl;
+                    opterr=1;
+                    break;
+            }
         }
     }
 
-    #endif
-
     CodeGenerator generator;
 
-    generator.AddCode(InstructionCodeType::Push_I,10);
-    generator.AddCode(InstructionCodeType::Push_I,30);
-    generator.AddCode(InstructionCodeType::AddI);
+    generator.AddCode(InstructionCodeType::Push_I,32);
+    generator.AddCode(InstructionCodeType::Push_I,33);
+    generator.AddCode(InstructionCodeType::SubI);
 
     ExecuteCode exec(generator.get_code(),0);
 

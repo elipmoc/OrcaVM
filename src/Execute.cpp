@@ -16,7 +16,18 @@ void ExecuteCode::init_code_translater()
     code_translater[InstructionCodeType::Push_B]=&ExecuteCode::push_b;
     code_translater[InstructionCodeType::AddI]=&ExecuteCode::add_i;
     code_translater[InstructionCodeType::AddF]=&ExecuteCode::add_f;
+    code_translater[InstructionCodeType::SubI]=&ExecuteCode::sub_i;
+    code_translater[InstructionCodeType::SubF]=&ExecuteCode::sub_f;
+    code_translater[InstructionCodeType::MulI]=&ExecuteCode::mul_i;
+    code_translater[InstructionCodeType::MulF]=&ExecuteCode::mul_f;
+    code_translater[InstructionCodeType::DivI]=&ExecuteCode::div_i;
+    code_translater[InstructionCodeType::DivF]=&ExecuteCode::div_f;
+    code_translater[InstructionCodeType::ModI]=&ExecuteCode::mod_i;
 }
+
+
+//***************Execute*****************//
+
 
 void ExecuteCode::execute()
 {
@@ -30,6 +41,10 @@ void ExecuteCode::execute()
     std::cout<<data_stack.top().i_val<<std::endl;
 }
 
+
+//***************Pop*****************//
+
+
 inline Stack ExecuteCode::pop()
 {
     Stack st=data_stack.top();
@@ -38,6 +53,10 @@ inline Stack ExecuteCode::pop()
 
     return st;
 }
+
+
+//***************Push*****************//
+
 
 void ExecuteCode::push_i()
 {
@@ -75,6 +94,10 @@ void ExecuteCode::push_b()
     data_stack.push(st);
 }
 
+
+//***************Calculate*****************//
+
+
 void ExecuteCode::add_i()
 {
     Stack st;
@@ -89,6 +112,79 @@ void ExecuteCode::add_f()
     Stack st;
 
     st.f_val=pop().f_val+pop().f_val;
+
+    data_stack.push(st);
+}
+
+void ExecuteCode::sub_i()
+{
+    Stack st;
+
+    int buf=pop().i_val;
+
+    st.i_val=pop().i_val-buf;
+
+    data_stack.push(st);
+}
+
+void ExecuteCode::sub_f()
+{
+    Stack st;
+
+    double buf=pop().f_val;
+
+    st.f_val=pop().f_val-buf;
+
+    data_stack.push(st);
+}
+
+void ExecuteCode::mul_i()
+{
+    Stack st;
+
+    st.i_val=pop().i_val*pop().i_val;
+
+    data_stack.push(st);
+}
+
+void ExecuteCode::mul_f()
+{
+    Stack st;
+
+    st.f_val=pop().f_val*pop().f_val;
+
+    data_stack.push(st);
+}
+
+void ExecuteCode::div_i()
+{
+    Stack st;
+
+    int buf=pop().i_val;
+
+    st.i_val=pop().i_val/buf;
+
+    data_stack.push(st);
+}
+
+void ExecuteCode::div_f()
+{
+    Stack st;
+
+    double buf=pop().f_val;
+
+    st.f_val=pop().f_val/buf;
+
+    data_stack.push(st);
+}
+
+void ExecuteCode::mod_i()
+{
+    Stack st;
+
+    int buf=pop().i_val;
+
+    st.i_val=pop().i_val%buf;
 
     data_stack.push(st);
 }

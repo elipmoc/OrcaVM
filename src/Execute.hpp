@@ -13,7 +13,7 @@ class ExecuteCode
 {
     private:
 
-        int code_counter;
+        unsigned int code_counter;
         
         std::vector<InstructionCode> code;
 
@@ -30,6 +30,13 @@ class ExecuteCode
 
         void add_i();
         void add_f();
+        void sub_i();
+        void sub_f();
+        void mul_i();
+        void mul_f();
+        void div_i();
+        void div_f();
+        void mod_i();
         
         void init_code_translater();
 
