@@ -7,6 +7,7 @@ enum class TokenType
     Rnum,
     String,
     Bool,
+    Ident,
     Push_I,
     Push_F,
     Push_S,
@@ -63,15 +64,34 @@ class Lexer
 {
     private:
 
-        int code_cnt=0;
+        unsigned int code_cnt=0;
 
         std::string code;
+
+        std::vector<Token> token_list;
+
+        std::unordered_map<std::string,TokenType> token_map;
+
+        inline char next_char();
+
+        void digit_lexer();
+        void ident_lexer();
+
+        void skip_space();
+
+        inline bool check_size();
+
+        void init_token_map();
+
+        void error(std::string);
 
     public:
 
         Lexer(std::string);
 
-        Token get_token();
+        std::vector<Token> get_token();
+
+        void start();
 };
 
 #endif

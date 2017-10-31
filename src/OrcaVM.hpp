@@ -7,6 +7,8 @@
 #include <vector>
 #include <unordered_map>
 #include <stack>
+#include <fstream>
+#include <ctype.h>
 
 #define Debug
 

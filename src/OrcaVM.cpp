@@ -1,6 +1,7 @@
 #include "OrcaVM.hpp"
 #include "Gencode.hpp"
 #include "Execute.hpp"
+#include "Lexer.hpp"
 
 int main(int argc,char **argv)
 {
@@ -35,6 +36,27 @@ int main(int argc,char **argv)
 
     if(file_read_flag)
     {
+        FILE *fp=fopen(filename,"r");
+        char data[100];
+        std::string file_code;
+
+        CodeGenerator generator;
+
+        if(fp==NULL)
+        {
+            std::cerr<<"\'"<<filename<<"\' ファイルをオープンできません"<<std::endl;
+            return -1;
+        }
+
+        while(fgets(data,100,fp))
+        {
+            file_code+=std::string(data);
+        }
+
+        Lexer lexer(file_code);
+
+        lexer.start();
+
         ExecuteCode exec(generator.get_code(),0);
 
         exec.execute();
