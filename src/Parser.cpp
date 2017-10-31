@@ -15,11 +15,13 @@ CodeGenerator Parser::get_code()
 
 void Parser::parse()
 {
-    Token tk=next_token();
+    Token tk;
 
     for(;;)
     {
         bool loop_f=false;
+
+        tk=next_token();
 
         switch(tk.type)
         {
@@ -45,15 +47,17 @@ void Parser::parse()
             case TokenType::Add_F:
                 gen.AddCode(InstructionCodeType::Add_F);
                 break;
+            case TokenType::Output:
+                gen.AddCode(InstructionCodeType::Output);
+                break;
             case TokenType::End_Token:
                 loop_f=true;
                 break;
             default:
+                std::cout<<static_cast<int>(tk.type)<<std::endl;
                 std::cout<<"parser error"<<std::endl;
                 exit(1);
         }
-
-        tk=next_token();
 
         if(loop_f)break;
     }

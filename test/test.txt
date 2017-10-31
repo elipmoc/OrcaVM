@@ -1,0 +1,3 @@
+push_s "Hello world\n"
+output
+

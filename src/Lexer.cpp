@@ -66,7 +66,7 @@ void Lexer::start()
                 ident_str+=c;
             }
 
-            if(token_map.count(ident_str)!=0)
+            if(token_map.count(ident_str)>0)
             {
                 tk.type=token_map[ident_str];
             }
@@ -84,13 +84,24 @@ void Lexer::start()
 
             for(c=next_char();c!='\"';c=next_char())
             {
-                str+=c;
+                if(c=='\\')
+                {
+                    c=next_char();
+
+                    if(c=='n')
+                    {
+                        str+="\n";
+                    }
+                }
+                else str+=c;
             }
 
             Token tk;
 
             tk.type=TokenType::String;
             tk.s_val=str;
+
+            code_cnt++;
 
             token_list.push_back(tk);
         }
@@ -158,6 +169,7 @@ void Lexer::init_token_map()
     token_map["g_store_f"]=TokenType::G_Store_F;
     token_map["g_store_s"]=TokenType::G_Store_S;
     token_map["g_store_b"]=TokenType::G_Store_B;
+    token_map["output"]=TokenType::Output;
 }
 
 void Lexer::skip_space()

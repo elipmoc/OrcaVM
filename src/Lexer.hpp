@@ -41,6 +41,7 @@ enum class TokenType
     G_Store_F,
     G_Store_S,
     G_Store_B,
+    Output,
     If_Start,
     If_End,
     Else,
