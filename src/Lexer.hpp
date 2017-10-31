@@ -48,6 +48,7 @@ enum class TokenType
     Func_End,
     Loop_Start,
     Loop_End,
+    End_Token,
 };
 
 struct Token
@@ -73,9 +74,6 @@ class Lexer
         std::unordered_map<std::string,TokenType> token_map;
 
         inline char next_char();
-
-        void digit_lexer();
-        void ident_lexer();
 
         void skip_space();
 

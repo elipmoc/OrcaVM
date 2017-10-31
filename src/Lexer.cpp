@@ -23,13 +23,60 @@ void Lexer::start()
 
         if(isdigit(c))
         {
-            code_cnt-=2;
-            digit_lexer();
+            std::string str_num;
+            bool p_flag=false;
+
+            for(;isdigit(c) || c=='.';c=next_char())
+            {
+                str_num+=c;
+
+                if(c=='.')
+                {
+                    if(p_flag)
+                    {
+                        error("lexer error");
+                    }
+
+                    p_flag=true;
+                }
+            }
+
+            Token tk;
+
+            if(p_flag)
+            {
+                tk.type=TokenType::Rnum;
+                tk.f_val=std::stof(str_num);
+            }
+            else
+            {
+                tk.type=TokenType::Num;
+                tk.i_val=std::stoi(str_num);
+            }
+
+            token_list.push_back(tk);
         }
         else if(isalpha(c))
         {
-            code_cnt-=2;
-            ident_lexer();
+            std::string ident_str;
+            Token tk;
+
+            for(;isalpha(c) || c=='_' || isdigit(c);c=next_char())
+            {
+                ident_str+=c;
+            }
+
+            if(token_map.count(ident_str)!=0)
+            {
+                tk.type=token_map[ident_str];
+            }
+            else
+            {
+                tk.s_val=ident_str;
+                tk.type=TokenType::Ident;
+            }
+
+            token_list.push_back(tk);
         }
         else if(c=='\"')
         {
@@ -53,6 +100,12 @@ void Lexer::start()
             break;
         }
     }
+
+    Token end;
+
+    end.type=TokenType::End_Token;
+
+    token_list.push_back(end);
 }
 
 inline bool Lexer::check_size()
@@ -68,68 +121,6 @@ inline char Lexer::next_char()
     code_cnt++;
 
     return c;
-}
-
-void Lexer::digit_lexer()
-{
-    char c=next_char();
-    int p_cnt=0;
-    std::string str_num;
-    bool float_flag=false;
-    Token tk;
-
-    for(;isdigit(c) || c=='.';c=next_char())
-    {
-        if(c=='.')
-        {
-            if(p_cnt==1)
-            {
-                error("invalid token");
-            }
-
-            float_flag=true;
-            p_cnt++;
-        }
-
-        str_num+=c;
-    }
-
-    if(!float_flag)
-    {
-        tk.type=TokenType::Num;
-        tk.i_val=std::stoi(str_num);
-    }
-    else
-    {
-        tk.type=TokenType::Rnum;
-        tk.f_val=std::stof(str_num);
-    }
-
-    token_list.push_back(tk);
-}
-
-void Lexer::ident_lexer()
-{
-    char c=next_char();
-    Token tk;
-    std::string ident_str;
-
-    for(;isalpha(c) || isdigit(c) || c=='_';c=next_char())
-    {
-        ident_str+=c;
-    }
-
-    if(token_map.count(ident_str)!=0)
-    {
-        tk.type=token_map[ident_str];
-    }
-    else
-    {
-        tk.s_val=ident_str;
-        tk.type=TokenType::Ident;
-    }
-
-    token_list.push_back(tk);
 }
 
 void Lexer::init_token_map()

@@ -2,6 +2,7 @@
 #include "Gencode.hpp"
 #include "Execute.hpp"
 #include "Lexer.hpp"
+#include "Parser.hpp"
 
 int main(int argc,char **argv)
 {
@@ -40,8 +41,6 @@ int main(int argc,char **argv)
         char data[100];
         std::string file_code;
 
-        CodeGenerator generator;
-
         if(fp==NULL)
         {
             std::cerr<<"\'"<<filename<<"\' ファイルをオープンできません"<<std::endl;
@@ -57,7 +56,11 @@ int main(int argc,char **argv)
 
         lexer.start();
 
-        ExecuteCode exec(generator.get_code(),0);
+        Parser parser(lexer.get_token());
+
+        parser.parse();
+
+        ExecuteCode exec(parser.get_code().get_code(),0);
 
         exec.execute();
 

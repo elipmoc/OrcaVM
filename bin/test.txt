@@ -1,1 +1,4 @@
-"abc" 123 "cde" 222
+push_i 2
+push_i 3
+add_i
+push_s "test"
