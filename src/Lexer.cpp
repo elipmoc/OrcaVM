@@ -142,6 +142,7 @@ void Lexer::init_token_map()
     token_map["push_b"]=TokenType::Push_B;
     token_map["add_i"]=TokenType::Add_I;
     token_map["add_f"]=TokenType::Add_F;
+    token_map["add_s"]=TokenType::Add_S;
     token_map["sub_i"]=TokenType::Sub_I;
     token_map["sub_f"]=TokenType::Sub_F;
     token_map["mul_i"]=TokenType::Mul_I;

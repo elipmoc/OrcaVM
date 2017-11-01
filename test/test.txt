@@ -1,3 +1,4 @@
-input
-
+push_s "abc\n"
+g_store_s 1
+g_load_s 1
 output

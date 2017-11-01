@@ -40,6 +40,7 @@ class ExecuteCode
 
         void add_i();
         void add_f();
+        void add_s();
         void sub_i();
         void sub_f();
         void mul_i();

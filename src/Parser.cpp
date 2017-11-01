@@ -47,6 +47,95 @@ void Parser::parse()
             case TokenType::Add_F:
                 gen.AddCode(InstructionCodeType::Add_F);
                 break;
+            case TokenType::Add_S:
+                gen.AddCode(InstructionCodeType::Add_S);
+                break;
+            case TokenType::Sub_I:
+                gen.AddCode(InstructionCodeType::Sub_I);
+                break;
+            case TokenType::Sub_F:
+                gen.AddCode(InstructionCodeType::Sub_F);
+                break;
+            case TokenType::Mul_I:
+                gen.AddCode(InstructionCodeType::Mul_I);
+                break;
+            case TokenType::Mul_F:
+                gen.AddCode(InstructionCodeType::Mul_F);
+                break;
+            case TokenType::Div_I:
+                gen.AddCode(InstructionCodeType::Div_I);
+                break;
+            case TokenType::Mod_I:
+                gen.AddCode(InstructionCodeType::Mod_I);
+                break;
+            case TokenType::L_I:
+                gen.AddCode(InstructionCodeType::L_I);
+                break;
+            case TokenType::L_F:
+                gen.AddCode(InstructionCodeType::L_F);
+                break;
+            case TokenType::Le_I:
+                gen.AddCode(InstructionCodeType::LE_I);
+                break;
+            case TokenType::Le_F:
+                gen.AddCode(InstructionCodeType::LE_F);
+                break;
+            case TokenType::G_I:
+                gen.AddCode(InstructionCodeType::G_I);
+                break;
+            case TokenType::G_F:
+                gen.AddCode(InstructionCodeType::G_F);
+                break;
+            case TokenType::Ge_I:
+                gen.AddCode(InstructionCodeType::GE_I);
+                break;
+            case TokenType::Ge_F:
+                gen.AddCode(InstructionCodeType::GE_F);
+                break;
+            case TokenType::E_I:
+                gen.AddCode(InstructionCodeType::E_I);
+                break;
+            case TokenType::E_F:
+                gen.AddCode(InstructionCodeType::E_F);
+                break;
+            case TokenType::Ne_I:
+                gen.AddCode(InstructionCodeType::NE_I);
+                break;
+            case TokenType::Ne_F:
+                gen.AddCode(InstructionCodeType::NE_F);
+                break;
+            case TokenType::G_Load_I:
+                tk=next_token();
+                gen.AddCode(InstructionCodeType::G_Load_I,tk.i_val);
+                break;
+            case TokenType::G_Load_F:
+                tk=next_token();
+                gen.AddCode(InstructionCodeType::G_Load_F,tk.i_val);
+                break;
+            case TokenType::G_Load_S:
+                tk=next_token();
+                gen.AddCode(InstructionCodeType::G_Load_S,tk.i_val);
+                break;
+            case TokenType::G_Load_B:
+                tk=next_token();
+                gen.AddCode(InstructionCodeType::G_Load_B,tk.i_val);
+                break;
+            case TokenType::G_Store_I:
+                tk=next_token();
+                gen.AddCode(InstructionCodeType::G_Store_I,tk.i_val);
+                break;
+            case TokenType::G_Store_F:
+                tk=next_token();
+                gen.AddCode(InstructionCodeType::G_Store_F,tk.i_val);
+                break;
+            case TokenType::G_Store_S:
+                tk=next_token();
+                gen.AddCode(InstructionCodeType::G_Store_S,tk.i_val);
+                break;
+            case TokenType::G_Store_B:
+                tk=next_token();
+                gen.AddCode(InstructionCodeType::G_Store_B,tk.i_val);
+                break;
             case TokenType::Output:
                 gen.AddCode(InstructionCodeType::Output);
                 break;

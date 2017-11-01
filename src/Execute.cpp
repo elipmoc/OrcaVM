@@ -23,6 +23,7 @@ void ExecuteCode::init_code_translater()
     code_translater[InstructionCodeType::Push_B]=&ExecuteCode::push_b;
     code_translater[InstructionCodeType::Add_I]=&ExecuteCode::add_i;
     code_translater[InstructionCodeType::Add_F]=&ExecuteCode::add_f;
+    code_translater[InstructionCodeType::Add_S]=&ExecuteCode::add_s;
     code_translater[InstructionCodeType::Sub_I]=&ExecuteCode::sub_i;
     code_translater[InstructionCodeType::Sub_F]=&ExecuteCode::sub_f;
     code_translater[InstructionCodeType::Mul_I]=&ExecuteCode::mul_i;
@@ -174,6 +175,15 @@ void ExecuteCode::add_f()
     Stack st;
 
     st.f_val=pop().f_val+pop().f_val;
+
+    data_stack.push(st);
+}
+
+void ExecuteCode::add_s()
+{
+    Stack st;
+
+    st.s_val=pop().s_val+pop().s_val;
 
     data_stack.push(st);
 }

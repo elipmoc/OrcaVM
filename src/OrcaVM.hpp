@@ -18,7 +18,7 @@ enum class InstructionCodeType //命令コードの種類
 {
     Push_I,Push_F,Push_S,Push_B,
 
-    Add_I,Add_F,
+    Add_I,Add_F,Add_S,
 
     Sub_I,Sub_F,
 

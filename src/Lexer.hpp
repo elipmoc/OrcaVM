@@ -14,6 +14,7 @@ enum class TokenType
     Push_B,
     Add_I,
     Add_F,
+    Add_S,
     Sub_I,
     Sub_F,
     Mul_I,
