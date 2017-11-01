@@ -170,15 +170,23 @@ void Lexer::init_token_map()
     token_map["g_store_s"]=TokenType::G_Store_S;
     token_map["g_store_b"]=TokenType::G_Store_B;
     token_map["output"]=TokenType::Output;
+    token_map["input"]=TokenType::Input;
 }
 
 void Lexer::skip_space()
 {
     char c=code[code_cnt];
 
-    while(isspace(c) || c=='\n')
+    if(c=='\n')
     {
-        c=next_char();
+        code_cnt++;
+    }
+    else
+    {
+        while(isspace(c))
+        {
+            c=next_char();
+        }
     }
 }
 

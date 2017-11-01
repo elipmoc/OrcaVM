@@ -50,11 +50,14 @@ void Parser::parse()
             case TokenType::Output:
                 gen.AddCode(InstructionCodeType::Output);
                 break;
+            case TokenType::Input:
+                gen.AddCode(InstructionCodeType::Input);
+                break;
             case TokenType::End_Token:
                 loop_f=true;
                 break;
             default:
-                std::cout<<static_cast<int>(tk.type)<<std::endl;
+                std::cout<<tk.s_val<<std::endl;
                 std::cout<<"parser error"<<std::endl;
                 exit(1);
         }
