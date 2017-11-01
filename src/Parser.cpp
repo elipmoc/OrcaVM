@@ -104,6 +104,12 @@ void Parser::parse()
             case TokenType::Ne_F:
                 gen.AddCode(InstructionCodeType::NE_F);
                 break;
+            case TokenType::Or:
+                gen.AddCode(InstructionCodeType::Or);
+                break;
+            case TokenType::And:
+                gen.AddCode(InstructionCodeType::And);
+                break;
             case TokenType::G_Load_I:
                 tk=next_token();
                 gen.AddCode(InstructionCodeType::G_Load_I,tk.i_val);

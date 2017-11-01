@@ -56,6 +56,8 @@ void ExecuteCode::init_code_translater()
     code_translater[InstructionCodeType::G_Load_F]=&ExecuteCode::g_load_f;
     code_translater[InstructionCodeType::G_Load_S]=&ExecuteCode::g_load_s;
     code_translater[InstructionCodeType::G_Load_B]=&ExecuteCode::g_load_b;
+    code_translater[InstructionCodeType::Or]=&ExecuteCode::Or;
+    code_translater[InstructionCodeType::And]=&ExecuteCode::And;
 }
 
 
@@ -263,8 +265,32 @@ void ExecuteCode::mod_i()
 }
 
 
-/*** Compare L_I/L_F/G_I/G_F/LE_I/LE_F/GE_I/GE_F/E_I/E_F/NE_I/NE_F ***/
+/*** Compare L_I/L_F/G_I/G_F/LE_I/LE_F/GE_I/GE_F/E_I/E_F/NE_I/NE_F/And/Or ***/
 
+
+void ExecuteCode::And()
+{
+    Stack st;
+
+    bool b1=pop().b_val;
+    bool b2=pop().b_val;
+
+    st.b_val=b1==true && b2==true?true :false;
+
+    data_stack.push(st);
+}
+
+void ExecuteCode::Or()
+{
+    Stack st;
+
+    bool b1=pop().b_val;
+    bool b2=pop().b_val;
+
+    st.b_val=b1==true || b2==true ? true : false;
+
+    data_stack.push(st);
+}
 
 void ExecuteCode::l_i()
 {

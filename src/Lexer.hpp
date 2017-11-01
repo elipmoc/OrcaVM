@@ -34,6 +34,8 @@ enum class TokenType
     E_F,
     Ne_I,
     Ne_F,
+    Or,
+    And,
     G_Load_I,
     G_Load_F,
     G_Load_S,

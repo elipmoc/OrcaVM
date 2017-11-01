@@ -3,7 +3,7 @@ all:
 
 CXX = g++
 CPPFLAGS = -MD -MP -MF $(@:.o=.dep)
-CXXFLAGS = -g -std=c++14 -Wall -Wextra
+CXXFLAGS = -g -O3 -std=c++14 -Wall -Wextra
 
 orcavm_object_files = bin/orca.o bin/gencode.o bin/vm.o bin/parser.o bin/lexer.o
 

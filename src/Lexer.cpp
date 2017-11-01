@@ -178,6 +178,8 @@ void Lexer::init_token_map()
     token_map["e_f"]=TokenType::E_F;
     token_map["ne_i"]=TokenType::Ne_I;
     token_map["ne_f"]=TokenType::Ne_F;
+    token_map["or"]=TokenType::Or;
+    token_map["and"]=TokenType::And;
     token_map["g_load_i"]=TokenType::G_Load_I;
     token_map["g_load_f"]=TokenType::G_Load_F;
     token_map["g_load_s"]=TokenType::G_Load_S;

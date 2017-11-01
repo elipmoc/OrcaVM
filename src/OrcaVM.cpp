@@ -38,6 +38,8 @@ void dump_code(std::vector<InstructionCode> code_list)
             case InstructionCodeType::E_F: std::cout<<"[E_F]"<<std::endl; break;
             case InstructionCodeType::NE_I: std::cout<<"[NE_I]"<<std::endl; break;
             case InstructionCodeType::NE_F: std::cout<<"[NE_F]"<<std::endl; break;
+            case InstructionCodeType::Or: std::cout<<"[OR]"<<std::endl; break;
+            case InstructionCodeType::And: std::cout<<"[AND]"<<std::endl; break;
             case InstructionCodeType::Jump: std::cout<<"[Jump] : "<<code.opr_i<<std::endl; break;
             case InstructionCodeType::Jump_True: std::cout<<"[Jump_True] : "<<code.opr_i<<std::endl; break;
             case InstructionCodeType::Jump_False: std::cout<<"[Jump_False] : "<<code.opr_i<<std::endl; break;

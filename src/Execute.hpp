@@ -61,6 +61,9 @@ class ExecuteCode
         void e_f();
         void ne_i();
         void ne_f();
+        
+        void And();
+        void Or();
 
         void output();
 
