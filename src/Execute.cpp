@@ -83,6 +83,7 @@ void ExecuteCode::dump_stack()
     if(data_stack.size()==0)
     {
         std::cout<<"stack -> [empty]"<<std::endl;
+        std::cout<<"*** stack dump end ***"<<std::endl;
         return;
     }
 

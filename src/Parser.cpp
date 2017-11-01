@@ -136,6 +136,38 @@ void Parser::parse()
                 tk=next_token();
                 gen.AddCode(InstructionCodeType::G_Store_B,tk.i_val);
                 break;
+            case TokenType::Jump:
+                tk=next_token();
+                if(label_place.count(tk.s_val)==0)
+                {
+                    gen.AddCode(InstructionCodeType::Jump,-1);
+                    backpatch_label[tk.s_val].push_back(gen.now_count());
+                }
+                else gen.AddCode(InstructionCodeType::Jump,label_place[tk.s_val]);
+                break;
+            case TokenType::Jump_True:
+                tk=next_token();
+                if(label_place.count(tk.s_val)==0)
+                {
+                    gen.AddCode(InstructionCodeType::Jump_True,-1);
+                    backpatch_label[tk.s_val].push_back(gen.now_count());
+                }
+                else gen.AddCode(InstructionCodeType::Jump_True,label_place[tk.s_val]);
+                break;
+            case TokenType::Jump_False:
+                tk=next_token();
+                if(label_place.count(tk.s_val)==0)
+                {
+                    gen.AddCode(InstructionCodeType::Jump_False,-1);
+                    backpatch_label[tk.s_val].push_back(gen.now_count());
+                }
+                else gen.AddCode(InstructionCodeType::Jump_False,label_place[tk.s_val]);
+                break;
+            case TokenType::Def_Label:
+                tk=next_token();
+                label_place[tk.s_val]=gen.now_count();
+                backpatch_l(tk.s_val,gen.now_count());
+                break;
             case TokenType::Output:
                 gen.AddCode(InstructionCodeType::Output);
                 break;
@@ -152,6 +184,14 @@ void Parser::parse()
         }
 
         if(loop_f)break;
+    }
+}
+
+void Parser::backpatch_l(std::string name,int addr)
+{
+    for(auto place:backpatch_label[name])
+    {
+        gen.backpatch_addr(place,addr);
     }
 }
 

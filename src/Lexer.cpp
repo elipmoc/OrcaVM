@@ -61,7 +61,7 @@ void Lexer::start()
             std::string ident_str;
             Token tk;
 
-            for(;isalpha(c) || c=='_' || isdigit(c);c=next_char())
+            for(;isalpha(c) || c=='_' || isdigit(c) || c==':';c=next_char())
             {
                 ident_str+=c;
             }
@@ -102,6 +102,22 @@ void Lexer::start()
             tk.s_val=str;
 
             code_cnt++;
+
+            token_list.push_back(tk);
+        }
+        else if(c=='@')
+        {
+            std::string label_str;
+
+            for(c=next_char();isdigit(c) || isalpha(c);c=next_char())
+            {
+                label_str+=c;
+            }
+
+            Token tk;
+
+            tk.type=TokenType::Label;
+            tk.s_val=label_str;
 
             token_list.push_back(tk);
         }
@@ -172,6 +188,10 @@ void Lexer::init_token_map()
     token_map["g_store_b"]=TokenType::G_Store_B;
     token_map["output"]=TokenType::Output;
     token_map["input"]=TokenType::Input;
+    token_map["jump"]=TokenType::Jump;
+    token_map["jump_true"]=TokenType::Jump_True;
+    token_map["jump_false"]=TokenType::Jump_False;
+    token_map["label:"]=TokenType::Def_Label;
 }
 
 void Lexer::skip_space()

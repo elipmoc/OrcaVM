@@ -1,6 +1,16 @@
 #include "OrcaVM.hpp"
 #include "Gencode.hpp"
 
+int CodeGenerator::now_count()
+{
+    return code.size()-1;
+}
+
+void CodeGenerator::backpatch_addr(int addr,int val)
+{
+    code[addr].opr_i=val;
+}
+
 void CodeGenerator::AddCode(InstructionCodeType type)
 {
     InstructionCode add_code;

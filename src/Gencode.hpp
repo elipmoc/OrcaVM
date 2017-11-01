@@ -15,6 +15,10 @@ class CodeGenerator
         void AddCode(InstructionCodeType,const std::string);
         void AddCode(InstructionCodeType,const bool);
 
+        int now_count();
+
+        void backpatch_addr(int,int);
+
         std::vector<InstructionCode>& get_code();
 };
 
