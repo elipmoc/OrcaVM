@@ -15,7 +15,10 @@ CodeGenerator Parser::get_code()
 
 void Parser::parse()
 {
-    Token tk;
+    static Token tk;
+
+    static int nest_cnt=0;
+    int if_b_patch,else_b_patch;
 
     for(;;)
     {
@@ -180,11 +183,42 @@ void Parser::parse()
             case TokenType::Input:
                 gen.AddCode(InstructionCodeType::Input);
                 break;
+            case TokenType::If:
+                nest_cnt++;
+                gen.AddCode(InstructionCodeType::Jump_False,-1);
+                if_b_patch=gen.now_count();
+                parse();
+                if(tk.type==TokenType::Else)
+                {
+                    gen.AddCode(InstructionCodeType::Jump,-1);
+                    gen.backpatch_addr(if_b_patch,gen.now_count());
+                    else_b_patch=gen.now_count();
+                    parse();
+                    gen.backpatch_addr(else_b_patch,gen.now_count());
+                }
+                else if(tk.type==TokenType::EndIf)
+                {
+                    gen.backpatch_addr(if_b_patch,gen.now_count());
+                }
+                break;
+            case TokenType::Else:
+                if(nest_cnt==0)
+                {
+                    std::cerr<<"syntax error"<<std::endl;
+                    exit(1);
+                }
+                return;
+            case TokenType::EndIf:
+                if(nest_cnt==0)
+                {
+                    std::cerr<<"syntax error"<<std::endl;
+                    exit(1);
+                }
+                return;
             case TokenType::End_Token:
                 loop_f=true;
                 break;
             default:
-                std::cout<<tk.s_val<<std::endl;
                 std::cout<<"parser error"<<std::endl;
                 exit(1);
         }

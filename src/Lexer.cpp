@@ -56,12 +56,12 @@ void Lexer::start()
 
             token_list.push_back(tk);
         }
-        else if(isalpha(c))
+        else if(isalpha(c) || c=='.')
         {
             std::string ident_str;
             Token tk;
 
-            for(;isalpha(c) || c=='_' || isdigit(c) || c==':';c=next_char())
+            for(;isalpha(c) || c=='_' || isdigit(c) || c==':' || c=='.';c=next_char())
             {
                 ident_str+=c;
             }
@@ -194,6 +194,9 @@ void Lexer::init_token_map()
     token_map["jump_true"]=TokenType::Jump_True;
     token_map["jump_false"]=TokenType::Jump_False;
     token_map["label:"]=TokenType::Def_Label;
+    token_map[".if"]=TokenType::If;
+    token_map[".else"]=TokenType::Else;
+    token_map[".endif"]=TokenType::EndIf;
 }
 
 void Lexer::skip_space()
