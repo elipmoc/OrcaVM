@@ -113,6 +113,23 @@ void Parser::parse()
             case TokenType::And:
                 gen.AddCode(InstructionCodeType::And);
                 break;
+            case TokenType::ItoF:
+                gen.AddCode(InstructionCodeType::ItoF);
+                break;
+            case TokenType::ItoS:
+                gen.AddCode(InstructionCodeType::ItoS);
+                break;
+            case TokenType::FtoI:
+                gen.AddCode(InstructionCodeType::FtoI);
+                break;
+            case TokenType::FtoS:
+                gen.AddCode(InstructionCodeType::FtoS);
+                break;
+            case TokenType::StoI:
+                gen.AddCode(InstructionCodeType::StoI);
+                break;
+            case TokenType::StoF:
+                gen.AddCode(InstructionCodeType::StoF);
             case TokenType::G_Load_I:
                 tk=next_token();
                 gen.AddCode(InstructionCodeType::G_Load_I,tk.i_val);
@@ -219,6 +236,7 @@ void Parser::parse()
                 loop_f=true;
                 break;
             default:
+                std::cout<<tk.s_val<<std::endl;
                 std::cout<<"parser error"<<std::endl;
                 exit(1);
         }

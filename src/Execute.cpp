@@ -58,6 +58,12 @@ void ExecuteCode::init_code_translater()
     code_translater[InstructionCodeType::G_Load_B]=&ExecuteCode::g_load_b;
     code_translater[InstructionCodeType::Or]=&ExecuteCode::Or;
     code_translater[InstructionCodeType::And]=&ExecuteCode::And;
+    code_translater[InstructionCodeType::ItoF]=&ExecuteCode::itof;
+    code_translater[InstructionCodeType::ItoS]=&ExecuteCode::itos;
+    code_translater[InstructionCodeType::FtoI]=&ExecuteCode::ftoi;
+    code_translater[InstructionCodeType::FtoS]=&ExecuteCode::ftos;
+    code_translater[InstructionCodeType::StoI]=&ExecuteCode::stoi;
+    code_translater[InstructionCodeType::StoF]=&ExecuteCode::stof;
 }
 
 
@@ -524,6 +530,64 @@ void ExecuteCode::g_load_b()
     Stack st;
 
     st.b_val=static_memory[code[code_counter].opr_i].b_val;
+
+    data_stack.push(st);
+}
+
+
+/*** cast itof/itos/ftoi/ftos/stoi/stof ***/
+
+
+void ExecuteCode::itof()
+{
+    Stack st;
+
+    st.f_val=(double)pop().i_val;
+
+    data_stack.push(st);
+}
+
+void ExecuteCode::itos()
+{
+    Stack st;
+
+    st.s_val=std::to_string(pop().i_val);
+
+    data_stack.push(st);
+}
+
+void ExecuteCode::ftoi()
+{
+    Stack st;
+
+    st.i_val=(int)pop().f_val;
+
+    data_stack.push(st);
+}
+
+void ExecuteCode::ftos()
+{
+    Stack st;
+
+    st.s_val=std::to_string(pop().f_val);
+
+    data_stack.push(st);
+}
+
+void ExecuteCode::stoi()
+{
+    Stack st;
+
+    st.i_val=std::stoi(pop().s_val);
+
+    data_stack.push(st);
+}
+
+void ExecuteCode::stof()
+{
+    Stack st;
+
+    st.f_val=std::stod(pop().s_val);
 
     data_stack.push(st);
 }

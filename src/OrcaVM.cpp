@@ -8,53 +8,63 @@ void dump_code(std::vector<InstructionCode> code_list)
 {
     std::cout<<"*** code dump start ***\n"<<std::endl;
 
+    unsigned int code_cnt=0;
+
     for(auto code:code_list)
     {
         switch(code.type)
         {
-            case InstructionCodeType::Push_I: std::cout<<"[push_i] : "<<code.opr_i<<std::endl; break;
-            case InstructionCodeType::Push_F: std::cout<<"[push_f] : "<<code.opr_f<<std::endl; break;
-            case InstructionCodeType::Push_S: std::cout<<"[push_s] : "<<code.opr_s<<std::endl; break;
-            case InstructionCodeType::Push_B: std::cout<<"[push_b] : "<<code.opr_b<<std::endl; break;
-            case InstructionCodeType::Add_I: std::cout<<"[add_i]"<<std::endl; break;
-            case InstructionCodeType::Add_F: std::cout<<"[add_f]"<<std::endl; break;
-            case InstructionCodeType::Add_S: std::cout<<"[add_s]"<<std::endl; break;
-            case InstructionCodeType::Sub_I: std::cout<<"[sub_i]"<<std::endl; break;
-            case InstructionCodeType::Sub_F: std::cout<<"[sub_f]"<<std::endl; break;
-            case InstructionCodeType::Mul_I: std::cout<<"[mul_i]"<<std::endl; break;
-            case InstructionCodeType::Mul_F: std::cout<<"[mul_f]"<<std::endl; break;
-            case InstructionCodeType::Div_I: std::cout<<"[div_i]"<<std::endl; break;
-            case InstructionCodeType::Div_F: std::cout<<"[div_f]"<<std::endl; break;
-            case InstructionCodeType::Mod_I: std::cout<<"[mod_i]"<<std::endl; break;
-            case InstructionCodeType::L_I: std::cout<<"[L_I]"<<std::endl; break;
-            case InstructionCodeType::L_F: std::cout<<"[L_F]"<<std::endl; break;
-            case InstructionCodeType::G_I: std::cout<<"[G_I]"<<std::endl; break;
-            case InstructionCodeType::G_F: std::cout<<"[G_F]"<<std::endl; break;
-            case InstructionCodeType::LE_I: std::cout<<"[LE_I]"<<std::endl; break;
-            case InstructionCodeType::LE_F: std::cout<<"[LE_F]"<<std::endl; break;
-            case InstructionCodeType::GE_I: std::cout<<"[GE_I]"<<std::endl; break;
-            case InstructionCodeType::GE_F: std::cout<<"[GE_F]"<<std::endl; break;
-            case InstructionCodeType::E_I: std::cout<<"[E_I]"<<std::endl; break;
-            case InstructionCodeType::E_F: std::cout<<"[E_F]"<<std::endl; break;
-            case InstructionCodeType::NE_I: std::cout<<"[NE_I]"<<std::endl; break;
-            case InstructionCodeType::NE_F: std::cout<<"[NE_F]"<<std::endl; break;
-            case InstructionCodeType::Or: std::cout<<"[OR]"<<std::endl; break;
-            case InstructionCodeType::And: std::cout<<"[AND]"<<std::endl; break;
-            case InstructionCodeType::Jump: std::cout<<"[Jump] : "<<code.opr_i<<std::endl; break;
-            case InstructionCodeType::Jump_True: std::cout<<"[Jump_True] : "<<code.opr_i<<std::endl; break;
-            case InstructionCodeType::Jump_False: std::cout<<"[Jump_False] : "<<code.opr_i<<std::endl; break;
-            case InstructionCodeType::Output: std::cout<<"[Output]"<<std::endl; break;
-            case InstructionCodeType::Input: std::cout<<"[Input]"<<std::endl; break;
-            case InstructionCodeType::G_Store_I: std::cout<<"[G_Store_I] : "<<code.opr_i<<std::endl; break;
-            case InstructionCodeType::G_Store_F: std::cout<<"[G_Store_F] : "<<code.opr_i<<std::endl; break;
-            case InstructionCodeType::G_Store_S: std::cout<<"[G_Store_S] : "<<code.opr_i<<std::endl; break;
-            case InstructionCodeType::G_Store_B: std::cout<<"[G_Store_B] : "<<code.opr_i<<std::endl; break;
-            case InstructionCodeType::G_Load_I: std::cout<<"[G_Load_I] : "<<code.opr_i<<std::endl; break;
-            case InstructionCodeType::G_Load_F: std::cout<<"[G_Load_F] : "<<code.opr_i<<std::endl; break;
-            case InstructionCodeType::G_Load_S: std::cout<<"[G_Load_S] : "<<code.opr_i<<std::endl; break;
-            case InstructionCodeType::G_Load_B: std::cout<<"[G_Load_B] : "<<code.opr_i<<std::endl; break;
+            case InstructionCodeType::Push_I: std::cout<<code_cnt<<" : [push_i] : "<<code.opr_i<<std::endl; break;
+            case InstructionCodeType::Push_F: std::cout<<code_cnt<<" : [push_f] : "<<code.opr_f<<std::endl; break;
+            case InstructionCodeType::Push_S: std::cout<<code_cnt<<" : [push_s] : "<<code.opr_s<<std::endl; break;
+            case InstructionCodeType::Push_B: std::cout<<code_cnt<<" : [push_b] : "<<code.opr_b<<std::endl; break;
+            case InstructionCodeType::Add_I: std::cout<<code_cnt<<" : [add_i]"<<std::endl; break;
+            case InstructionCodeType::Add_F: std::cout<<code_cnt<<" : [add_f]"<<std::endl; break;
+            case InstructionCodeType::Add_S: std::cout<<code_cnt<<" : [add_s]"<<std::endl; break;
+            case InstructionCodeType::Sub_I: std::cout<<code_cnt<<" : [sub_i]"<<std::endl; break;
+            case InstructionCodeType::Sub_F: std::cout<<code_cnt<<" : [sub_f]"<<std::endl; break;
+            case InstructionCodeType::Mul_I: std::cout<<code_cnt<<" : [mul_i]"<<std::endl; break;
+            case InstructionCodeType::Mul_F: std::cout<<code_cnt<<" : [mul_f]"<<std::endl; break;
+            case InstructionCodeType::Div_I: std::cout<<code_cnt<<" : [div_i]"<<std::endl; break;
+            case InstructionCodeType::Div_F: std::cout<<code_cnt<<" : [div_f]"<<std::endl; break;
+            case InstructionCodeType::Mod_I: std::cout<<code_cnt<<" : [mod_i]"<<std::endl; break;
+            case InstructionCodeType::L_I: std::cout<<code_cnt<<" : [L_I]"<<std::endl; break;
+            case InstructionCodeType::L_F: std::cout<<code_cnt<<" : [L_F]"<<std::endl; break;
+            case InstructionCodeType::G_I: std::cout<<code_cnt<<" : [G_I]"<<std::endl; break;
+            case InstructionCodeType::G_F: std::cout<<code_cnt<<" : [G_F]"<<std::endl; break;
+            case InstructionCodeType::LE_I: std::cout<<code_cnt<<" : [LE_I]"<<std::endl; break;
+            case InstructionCodeType::LE_F: std::cout<<code_cnt<<" : [LE_F]"<<std::endl; break;
+            case InstructionCodeType::GE_I: std::cout<<code_cnt<<" : [GE_I]"<<std::endl; break;
+            case InstructionCodeType::GE_F: std::cout<<code_cnt<<" : [GE_F]"<<std::endl; break;
+            case InstructionCodeType::E_I: std::cout<<code_cnt<<" : [E_I]"<<std::endl; break;
+            case InstructionCodeType::E_F: std::cout<<code_cnt<<" : [E_F]"<<std::endl; break;
+            case InstructionCodeType::NE_I: std::cout<<code_cnt<<" : [NE_I]"<<std::endl; break;
+            case InstructionCodeType::NE_F: std::cout<<code_cnt<<" : [NE_F]"<<std::endl; break;
+            case InstructionCodeType::Or: std::cout<<code_cnt<<" : [OR]"<<std::endl; break;
+            case InstructionCodeType::And: std::cout<<code_cnt<<" : [AND]"<<std::endl; break;
+            case InstructionCodeType::Jump: std::cout<<code_cnt<<" : [Jump] : "<<code.opr_i<<std::endl; break;
+            case InstructionCodeType::Jump_True: std::cout<<code_cnt<<" : [Jump_True] : "<<code.opr_i<<std::endl; break;
+            case InstructionCodeType::Jump_False: std::cout<<code_cnt<<" : [Jump_False] : "<<code.opr_i<<std::endl; break;
+            case InstructionCodeType::Output: std::cout<<code_cnt<<" : [Output]"<<std::endl; break;
+            case InstructionCodeType::Input: std::cout<<code_cnt<<" : [Input]"<<std::endl; break;
+            case InstructionCodeType::G_Store_I: std::cout<<code_cnt<<" : [G_Store_I] : "<<code.opr_i<<std::endl; break;
+            case InstructionCodeType::G_Store_F: std::cout<<code_cnt<<" : [G_Store_F] : "<<code.opr_i<<std::endl; break;
+            case InstructionCodeType::G_Store_S: std::cout<<code_cnt<<" : [G_Store_S] : "<<code.opr_i<<std::endl; break;
+            case InstructionCodeType::G_Store_B: std::cout<<code_cnt<<" : [G_Store_B] : "<<code.opr_i<<std::endl; break;
+            case InstructionCodeType::G_Load_I: std::cout<<code_cnt<<" : [G_Load_I] : "<<code.opr_i<<std::endl; break;
+            case InstructionCodeType::G_Load_F: std::cout<<code_cnt<<" : [G_Load_F] : "<<code.opr_i<<std::endl; break;
+            case InstructionCodeType::G_Load_S: std::cout<<code_cnt<<" : [G_Load_S] : "<<code.opr_i<<std::endl; break;
+            case InstructionCodeType::G_Load_B: std::cout<<code_cnt<<" : [G_Load_B] : "<<code.opr_i<<std::endl; break;
+            case InstructionCodeType::ItoF: std::cout<<code_cnt<<" : [ItoF]"<<std::endl; break;
+            case InstructionCodeType::ItoS: std::cout<<code_cnt<<" : [ItoS]"<<std::endl; break;
+            case InstructionCodeType::FtoI: std::cout<<code_cnt<<" : [FtoI]"<<std::endl; break;
+            case InstructionCodeType::FtoS: std::cout<<code_cnt<<" : [FtoS]"<<std::endl; break;
+            case InstructionCodeType::StoI: std::cout<<code_cnt<<" : [StoI]"<<std::endl; break;
+            case InstructionCodeType::StoF: std::cout<<code_cnt<<" : [StoF]"<<std::endl; break;
             default: std::cerr<<"code dump error"<<std::endl; exit(1);
         }
+
+        code_cnt++;
     }
 
     std::cout<<"*** code dump end ***\n"<<std::endl;

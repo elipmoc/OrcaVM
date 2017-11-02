@@ -44,6 +44,12 @@ enum class InstructionCodeType //命令コードの種類
 
     NE_I,NE_F,
 
+    ItoF,ItoS,
+
+    FtoI,FtoS,
+
+    StoI,StoF,
+
     Or,And,
 
     G_Store_I,G_Store_F,G_Store_S,G_Store_B,

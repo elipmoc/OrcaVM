@@ -197,13 +197,19 @@ void Lexer::init_token_map()
     token_map[".if"]=TokenType::If;
     token_map[".else"]=TokenType::Else;
     token_map[".endif"]=TokenType::EndIf;
+    token_map["itof"]=TokenType::ItoF;
+    token_map["itos"]=TokenType::ItoS;
+    token_map["ftoi"]=TokenType::FtoI;
+    token_map["ftos"]=TokenType::FtoS;
+    token_map["stoi"]=TokenType::StoI;
+    token_map["stof"]=TokenType::StoF;
 }
 
 void Lexer::skip_space()
 {
     char c=code[code_cnt];
 
-    if(c=='\n')
+    if(c=='\n' || c=='\t')
     {
         code_cnt++;
     }

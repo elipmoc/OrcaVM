@@ -61,6 +61,13 @@ class ExecuteCode
         void e_f();
         void ne_i();
         void ne_f();
+
+        void itof();
+        void itos();
+        void ftoi();
+        void ftos();
+        void stoi();
+        void stof();
         
         void And();
         void Or();
