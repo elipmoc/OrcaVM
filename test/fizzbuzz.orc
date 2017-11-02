@@ -1,14 +1,14 @@
 push_i 1
 g_store_i 1
 
-label:@loop
+.loop
 
 g_load_i 1
 push_i 1000000
 ge_i
 
 .if
-	jump @loopend
+	.break
 .endif
 
 g_load_i 1
@@ -67,6 +67,4 @@ add_i
 g_store_i 1
 
 
-jump @loop
-
-label:@loopend
+.loopend

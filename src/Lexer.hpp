@@ -64,6 +64,7 @@ enum class TokenType
     Func_End,
     Loop_Start,
     Loop_End,
+    Break,
     End_Token,
 };
 

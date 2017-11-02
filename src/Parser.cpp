@@ -18,6 +18,10 @@ void Parser::parse()
     static Token tk;
 
     static int nest_cnt=0;
+    static int loop_nest_cnt=0;
+
+    static std::stack<std::vector<int>> loop_end_addr;
+
     int if_b_patch,else_b_patch;
 
     for(;;)
@@ -205,12 +209,15 @@ void Parser::parse()
                 gen.AddCode(InstructionCodeType::Jump_False,-1);
                 if_b_patch=gen.now_count();
                 parse();
+                nest_cnt--;
                 if(tk.type==TokenType::Else)
                 {
                     gen.AddCode(InstructionCodeType::Jump,-1);
                     gen.backpatch_addr(if_b_patch,gen.now_count());
                     else_b_patch=gen.now_count();
+                    nest_cnt++;
                     parse();
+                    nest_cnt--;
                     gen.backpatch_addr(else_b_patch,gen.now_count());
                 }
                 else if(tk.type==TokenType::EndIf)
@@ -232,6 +239,36 @@ void Parser::parse()
                     exit(1);
                 }
                 return;
+            case TokenType::Loop_Start:
+            {   
+                loop_nest_cnt++;
+                std::vector<int> v;
+                loop_end_addr.push(v);
+                int loop_addr=gen.now_count();
+                parse();
+
+                gen.AddCode(InstructionCodeType::Jump,loop_addr);
+                
+                for(auto addr:loop_end_addr.top())
+                {
+                    gen.backpatch_addr(addr,gen.now_count());
+                }
+
+                loop_end_addr.pop();
+                
+                break;
+            }
+            case TokenType::Loop_End:
+                if(loop_nest_cnt==0)
+                {
+                    std::cerr<<"syntax error"<<std::endl;
+                    exit(1);
+                }
+                return;
+            case TokenType::Break:
+                gen.AddCode(InstructionCodeType::Jump,-1);
+                loop_end_addr.top().push_back(gen.now_count());
+                break;
             case TokenType::End_Token:
                 loop_f=true;
                 break;
