@@ -109,6 +109,26 @@ class ExecuteCode
         void load_s();
         void load_b();
 
+        void g_astore_i();
+        void g_astore_f();
+        void g_astore_s();
+        void g_astore_b();
+
+        void g_aload_i();
+        void g_aload_f();
+        void g_aload_s();
+        void g_aload_b();
+
+        void astore_i();
+        void astore_f();
+        void astore_s();
+        void astore_b();
+
+        void aload_i();
+        void aload_f();
+        void aload_s();
+        void aload_b();
+
         void return_();
 
         void invoke();

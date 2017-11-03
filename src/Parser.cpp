@@ -280,6 +280,134 @@ void Parser::parse()
 
                 break;
 
+            case TokenType::G_ALoad_I:
+
+                tk=next_token();
+
+                gen.AddCode(InstructionCodeType::G_ALoad_I,global_var_addr[tk.s_val]);
+
+                break;
+
+            case TokenType::G_ALoad_F:
+
+                tk=next_token();
+
+                gen.AddCode(InstructionCodeType::G_ALoad_F,global_var_addr[tk.s_val]);
+
+                break;
+
+            case TokenType::G_ALoad_S:
+
+                tk=next_token();
+
+                gen.AddCode(InstructionCodeType::G_ALoad_S,global_var_addr[tk.s_val]);
+
+                break;
+
+            case TokenType::G_ALoad_B:
+
+                tk=next_token();
+
+                gen.AddCode(InstructionCodeType::G_ALoad_B,global_var_addr[tk.s_val]);
+
+                break;
+
+            case TokenType::G_AStore_I:
+
+                tk=next_token();
+
+                gen.AddCode(InstructionCodeType::G_AStore_I,global_var_addr[tk.s_val]);
+
+                break;
+
+            case TokenType::G_AStore_F:
+
+                tk=next_token();
+
+                gen.AddCode(InstructionCodeType::G_AStore_F,global_var_addr[tk.s_val]);
+
+                break;
+
+            case TokenType::G_AStore_S:
+
+                tk=next_token();
+
+                gen.AddCode(InstructionCodeType::G_AStore_S,global_var_addr[tk.s_val]);
+
+                break;
+
+            case TokenType::G_AStore_B:
+
+                tk=next_token();
+
+                gen.AddCode(InstructionCodeType::G_AStore_B,global_var_addr[tk.s_val]);
+
+                break;
+
+            case TokenType::AStore_I:
+
+                tk=next_token();
+
+                gen.AddCode(InstructionCodeType::AStore_I,local_var_addr.top()[tk.s_val]);
+
+                break;
+
+            case TokenType::AStore_F:
+
+                tk=next_token();
+
+                gen.AddCode(InstructionCodeType::AStore_F,local_var_addr.top()[tk.s_val]);
+
+                break;
+
+            case TokenType::AStore_S:
+
+                tk=next_token();
+
+                gen.AddCode(InstructionCodeType::AStore_S,local_var_addr.top()[tk.s_val]);
+
+                break;
+
+            case TokenType::AStore_B:
+
+                tk=next_token();
+
+                gen.AddCode(InstructionCodeType::AStore_B,local_var_addr.top()[tk.s_val]);
+
+                break;
+
+            case TokenType::ALoad_I:
+
+                tk=next_token();
+
+                gen.AddCode(InstructionCodeType::ALoad_I,local_var_addr.top()[tk.s_val]);
+                
+                break;
+
+            case TokenType::ALoad_F:
+
+                tk=next_token();
+
+                gen.AddCode(InstructionCodeType::ALoad_F,local_var_addr.top()[tk.s_val]);
+                
+                break;
+
+            case TokenType::ALoad_S:
+
+                tk=next_token();
+
+                gen.AddCode(InstructionCodeType::ALoad_S,local_var_addr.top()[tk.s_val]);
+                
+                break;
+
+            case TokenType::ALoad_B:
+
+                tk=next_token();
+
+                gen.AddCode(InstructionCodeType::ALoad_B,local_var_addr.top()[tk.s_val]);
+                
+                break;
+
             case TokenType::Jump:
 
                 tk=next_token();

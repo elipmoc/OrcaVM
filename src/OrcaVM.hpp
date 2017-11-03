@@ -65,6 +65,14 @@ enum class InstructionCodeType //命令コードの種類
 
     Load_I,Load_F,Load_S,Load_B,
 
+    G_AStore_I,G_AStore_F,G_AStore_S,G_AStore_B,
+
+    G_ALoad_I,G_ALoad_F,G_ALoad_S,G_ALoad_B,
+
+    AStore_I,AStore_F,AStore_S,AStore_B,
+
+    ALoad_I,ALoad_F,ALoad_S,ALoad_B,
+
     Return,
 
     Invoke,
