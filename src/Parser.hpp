@@ -9,6 +9,7 @@ class Parser
 
         std::unordered_map<std::string,int> label_place;
         std::unordered_map<std::string,std::vector<int>> backpatch_label;
+        std::unordered_map<std::string,int> func_addr;
 
         void backpatch_l(std::string,int);
         
@@ -27,6 +28,8 @@ class Parser
         CodeGenerator get_code();
 
         void parse();
+
+        int entry_point=0;
 };
 
 #endif

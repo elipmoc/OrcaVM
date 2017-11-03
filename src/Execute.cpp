@@ -8,11 +8,17 @@ ExecuteCode::ExecuteCode(const std::vector<InstructionCode>& code,const int entr
     this->init_code_translater();
 
     static_memory=new Memory[Static_Memory_Size];
+    call_stack=new Memory[Call_Stack_Size];
+
+    call_stack_size.push(0);
+
+    stack_ptr=call_stack;
 }
 
 ExecuteCode::~ExecuteCode()
 {
     delete[] static_memory;
+    delete[] call_stack;
 }
 
 void ExecuteCode::init_code_translater()
@@ -41,6 +47,7 @@ void ExecuteCode::init_code_translater()
     code_translater[InstructionCodeType::GE_F]=&ExecuteCode::ge_f;
     code_translater[InstructionCodeType::E_I]=&ExecuteCode::e_i;
     code_translater[InstructionCodeType::E_F]=&ExecuteCode::e_f;
+    code_translater[InstructionCodeType::E_S]=&ExecuteCode::e_s;
     code_translater[InstructionCodeType::NE_I]=&ExecuteCode::ne_i;
     code_translater[InstructionCodeType::NE_F]=&ExecuteCode::ne_f;    
     code_translater[InstructionCodeType::Output]=&ExecuteCode::output;
@@ -56,6 +63,14 @@ void ExecuteCode::init_code_translater()
     code_translater[InstructionCodeType::G_Load_F]=&ExecuteCode::g_load_f;
     code_translater[InstructionCodeType::G_Load_S]=&ExecuteCode::g_load_s;
     code_translater[InstructionCodeType::G_Load_B]=&ExecuteCode::g_load_b;
+    code_translater[InstructionCodeType::Store_I]=&ExecuteCode::store_i;
+    code_translater[InstructionCodeType::Store_F]=&ExecuteCode::store_f;
+    code_translater[InstructionCodeType::Store_S]=&ExecuteCode::store_s;
+    code_translater[InstructionCodeType::Store_B]=&ExecuteCode::store_b;
+    code_translater[InstructionCodeType::Load_I]=&ExecuteCode::load_i;
+    code_translater[InstructionCodeType::Load_F]=&ExecuteCode::load_f;
+    code_translater[InstructionCodeType::Load_S]=&ExecuteCode::load_s;
+    code_translater[InstructionCodeType::Load_B]=&ExecuteCode::load_b;
     code_translater[InstructionCodeType::Or]=&ExecuteCode::Or;
     code_translater[InstructionCodeType::And]=&ExecuteCode::And;
     code_translater[InstructionCodeType::ItoF]=&ExecuteCode::itof;
@@ -64,6 +79,10 @@ void ExecuteCode::init_code_translater()
     code_translater[InstructionCodeType::FtoS]=&ExecuteCode::ftos;
     code_translater[InstructionCodeType::StoI]=&ExecuteCode::stoi;
     code_translater[InstructionCodeType::StoF]=&ExecuteCode::stof;
+    code_translater[InstructionCodeType::Return]=&ExecuteCode::return_;
+    code_translater[InstructionCodeType::Set_Stack_Size]=&ExecuteCode::set_call_stack_size;
+    code_translater[InstructionCodeType::Invoke]=&ExecuteCode::invoke;
+    code_translater[InstructionCodeType::Push_Return_Stack]=&ExecuteCode::push_return_stack;
 }
 
 
@@ -271,7 +290,7 @@ void ExecuteCode::mod_i()
 }
 
 
-/*** Compare L_I/L_F/G_I/G_F/LE_I/LE_F/GE_I/GE_F/E_I/E_F/NE_I/NE_F/And/Or ***/
+/*** Compare L_I/L_F/G_I/G_F/LE_I/LE_F/GE_I/GE_F/E_I/E_F/E_S/NE_I/NE_F/And/Or ***/
 
 
 void ExecuteCode::And()
@@ -409,6 +428,15 @@ void ExecuteCode::e_f()
     data_stack.push(st);
 }
 
+void ExecuteCode::e_s()
+{
+    Stack st;
+
+    st.b_val=pop().s_val==pop().s_val;
+
+    data_stack.push(st);
+}
+
 void ExecuteCode::ne_i()
 {
     int comp_buf=pop().i_val;
@@ -535,6 +563,68 @@ void ExecuteCode::g_load_b()
 }
 
 
+/*** store/load ***/
+
+
+void ExecuteCode::store_i()
+{
+    (stack_ptr+code[code_counter].opr_i)->i_val=pop().i_val;
+}
+
+void ExecuteCode::store_f()
+{
+    (stack_ptr+code[code_counter].opr_i)->f_val=pop().f_val;
+}
+
+void ExecuteCode::store_s()
+{
+    (stack_ptr+code[code_counter].opr_i)->s_val=pop().s_val;
+}
+
+void ExecuteCode::store_b()
+{
+    (stack_ptr+code[code_counter].opr_i)->b_val=pop().b_val;
+}
+
+void ExecuteCode::load_i()
+{
+    Stack st;
+
+    st.i_val=(stack_ptr+code[code_counter].opr_i)->i_val;
+
+    data_stack.push(st);
+}
+
+void ExecuteCode::load_f()
+{
+    Stack st;
+
+    st.f_val=(stack_ptr+code[code_counter].opr_i)->f_val;
+
+    data_stack.push(st);
+}
+
+
+void ExecuteCode::load_s()
+{
+    Stack st;
+
+    st.s_val=(stack_ptr+code[code_counter].opr_i)->s_val;
+
+    data_stack.push(st);
+}
+
+
+void ExecuteCode::load_b()
+{
+    Stack st;
+
+    st.b_val=(stack_ptr+code[code_counter].opr_i)->b_val;
+
+    data_stack.push(st);
+}
+
+
 /*** cast itof/itos/ftoi/ftos/stoi/stof ***/
 
 
@@ -590,4 +680,36 @@ void ExecuteCode::stof()
     st.f_val=std::stod(pop().s_val);
 
     data_stack.push(st);
+}
+
+
+/*** return ***/
+
+
+void ExecuteCode::return_()
+{
+    code_counter=return_stack.top();
+    return_stack.pop();
+
+    call_stack_size.pop();
+
+    stack_ptr=stack_ptr-call_stack_size.top();
+}
+
+void ExecuteCode::invoke()
+{
+    code_counter=code[code_counter].opr_i;
+
+    stack_ptr=(stack_ptr+call_stack_size.top());
+}
+
+void ExecuteCode::set_call_stack_size()
+{
+    call_stack_size.push(code[code_counter].opr_i);
+}
+
+
+void ExecuteCode::push_return_stack()
+{
+    return_stack.push(code[code_counter].opr_i);
 }

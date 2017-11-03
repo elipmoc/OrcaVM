@@ -29,7 +29,15 @@ class ExecuteCode
 
         std::stack<Stack> data_stack;
 
+        std::stack<int> return_stack;
+
+        std::stack<int> call_stack_size;
+
         Memory *static_memory;
+
+        Memory *call_stack;
+
+        Memory *stack_ptr;
 
         inline Stack pop();
 
@@ -59,6 +67,7 @@ class ExecuteCode
         void ge_f();
         void e_i();
         void e_f();
+        void e_s();
         void ne_i();
         void ne_f();
 
@@ -89,6 +98,24 @@ class ExecuteCode
         void g_load_f();
         void g_load_s();
         void g_load_b();
+
+        void store_i();
+        void store_f();
+        void store_s();
+        void store_b();
+
+        void load_i();
+        void load_f();
+        void load_s();
+        void load_b();
+
+        void return_();
+
+        void invoke();
+
+        void push_return_stack();
+
+        void set_call_stack_size();
 
         void init_code_translater();
 

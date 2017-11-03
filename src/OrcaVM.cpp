@@ -38,6 +38,7 @@ void dump_code(std::vector<InstructionCode> code_list)
             case InstructionCodeType::GE_F: std::cout<<code_cnt<<" : [GE_F]"<<std::endl; break;
             case InstructionCodeType::E_I: std::cout<<code_cnt<<" : [E_I]"<<std::endl; break;
             case InstructionCodeType::E_F: std::cout<<code_cnt<<" : [E_F]"<<std::endl; break;
+            case InstructionCodeType::E_S: std::cout<<code_cnt<<" : [E_S]"<<std::endl; break;
             case InstructionCodeType::NE_I: std::cout<<code_cnt<<" : [NE_I]"<<std::endl; break;
             case InstructionCodeType::NE_F: std::cout<<code_cnt<<" : [NE_F]"<<std::endl; break;
             case InstructionCodeType::Or: std::cout<<code_cnt<<" : [OR]"<<std::endl; break;
@@ -55,12 +56,24 @@ void dump_code(std::vector<InstructionCode> code_list)
             case InstructionCodeType::G_Load_F: std::cout<<code_cnt<<" : [G_Load_F] : "<<code.opr_i<<std::endl; break;
             case InstructionCodeType::G_Load_S: std::cout<<code_cnt<<" : [G_Load_S] : "<<code.opr_i<<std::endl; break;
             case InstructionCodeType::G_Load_B: std::cout<<code_cnt<<" : [G_Load_B] : "<<code.opr_i<<std::endl; break;
+            case InstructionCodeType::Store_I: std::cout<<code_cnt<<" : [Store_I] : "<<code.opr_i<<std::endl; break;
+            case InstructionCodeType::Store_F: std::cout<<code_cnt<<" : [Store_F] : "<<code.opr_i<<std::endl; break;
+            case InstructionCodeType::Store_S: std::cout<<code_cnt<<" : [Store_S] : "<<code.opr_i<<std::endl; break;
+            case InstructionCodeType::Store_B: std::cout<<code_cnt<<" : [Store_B] : "<<code.opr_i<<std::endl; break;
+            case InstructionCodeType::Load_I: std::cout<<code_cnt<<" : [Load_I] : "<<code.opr_i<<std::endl; break;
+            case InstructionCodeType::Load_F: std::cout<<code_cnt<<" : [Load_F] : "<<code.opr_i<<std::endl; break;
+            case InstructionCodeType::Load_S: std::cout<<code_cnt<<" : [Load_S] : "<<code.opr_i<<std::endl; break;
+            case InstructionCodeType::Load_B: std::cout<<code_cnt<<" : [Load_B] : "<<code.opr_i<<std::endl; break;
             case InstructionCodeType::ItoF: std::cout<<code_cnt<<" : [ItoF]"<<std::endl; break;
             case InstructionCodeType::ItoS: std::cout<<code_cnt<<" : [ItoS]"<<std::endl; break;
             case InstructionCodeType::FtoI: std::cout<<code_cnt<<" : [FtoI]"<<std::endl; break;
             case InstructionCodeType::FtoS: std::cout<<code_cnt<<" : [FtoS]"<<std::endl; break;
             case InstructionCodeType::StoI: std::cout<<code_cnt<<" : [StoI]"<<std::endl; break;
             case InstructionCodeType::StoF: std::cout<<code_cnt<<" : [StoF]"<<std::endl; break;
+            case InstructionCodeType::Invoke: std::cout<<code_cnt<<" : [Invoke] : "<<code.opr_i<<std::endl; break;
+            case InstructionCodeType::Return: std::cout<<code_cnt<<" : [Return]"<<std::endl; break;
+            case InstructionCodeType::Push_Return_Stack: std::cout<<code_cnt<<" : [Push_Return_Stack] : "<<code.opr_i<<std::endl; break;
+            case InstructionCodeType::Set_Stack_Size: std::cout<<code_cnt<<" : [Set_Stack_Size] : "<<code.opr_i<<std::endl; break;
             default: std::cerr<<"code dump error"<<std::endl; exit(1);
         }
 
@@ -78,13 +91,15 @@ int main(int argc,char **argv)
 
     bool dump_code_flag=false;
 
+    bool entry_point_flag=false;
+
     bool file_read_flag=false;
 
     char *filename;
 
     if(argc>1)
     {
-        while((opt=getopt(argc,argv,"dco:"))!=-1) //オプションの解析
+        while((opt=getopt(argc,argv,"dceo:"))!=-1) //オプションの解析
         {
             switch(opt)
             {
@@ -99,6 +114,10 @@ int main(int argc,char **argv)
 
                 case 'c':
                     dump_code_flag=true;
+                    break;
+
+                case 'e':
+                    entry_point_flag=true;
                     break;
 
                 default:
@@ -132,12 +151,17 @@ int main(int argc,char **argv)
 
         parser.parse();
 
+        if(entry_point_flag)
+        {
+            std::cout<<"entry_point : "<<parser.entry_point+1<<std::endl;
+        }
+
         if(dump_code_flag)
         {
             dump_code(parser.get_code().get_code());
         }
 
-        ExecuteCode exec(parser.get_code().get_code(),0);
+        ExecuteCode exec(parser.get_code().get_code(),parser.entry_point+1);
 
         exec.execute();
 

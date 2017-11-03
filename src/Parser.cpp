@@ -22,6 +22,8 @@ void Parser::parse()
 
     static std::stack<std::vector<int>> loop_end_addr;
 
+    static std::stack<std::string> now_func;
+
     int if_b_patch,else_b_patch;
 
     for(;;)
@@ -105,6 +107,9 @@ void Parser::parse()
             case TokenType::E_F:
                 gen.AddCode(InstructionCodeType::E_F);
                 break;
+            case TokenType::E_S:
+                gen.AddCode(InstructionCodeType::E_S);
+                break;
             case TokenType::Ne_I:
                 gen.AddCode(InstructionCodeType::NE_I);
                 break;
@@ -165,6 +170,39 @@ void Parser::parse()
             case TokenType::G_Store_B:
                 tk=next_token();
                 gen.AddCode(InstructionCodeType::G_Store_B,tk.i_val);
+                break;
+            case TokenType::Load_I:
+                tk=next_token();
+                gen.AddCode(InstructionCodeType::Load_I,tk.i_val);
+                break;
+            case TokenType::Load_F:
+                tk=next_token();
+                gen.AddCode(InstructionCodeType::Load_F,tk.i_val);
+                break;
+
+            case TokenType::Load_S:
+                tk=next_token();
+                gen.AddCode(InstructionCodeType::Load_S,tk.i_val);
+                break;
+            case TokenType::Load_B:
+                tk=next_token();
+                gen.AddCode(InstructionCodeType::Load_B,tk.i_val);
+                break;
+            case TokenType::Store_I:
+                tk=next_token();
+                gen.AddCode(InstructionCodeType::Store_I,tk.i_val);
+                break;
+            case TokenType::Store_F:
+                tk=next_token();
+                gen.AddCode(InstructionCodeType::Store_F,tk.i_val);
+                break;
+            case TokenType::Store_S:
+                tk=next_token();
+                gen.AddCode(InstructionCodeType::Store_S,tk.i_val);
+                break;
+            case TokenType::Store_B:
+                tk=next_token();
+                gen.AddCode(InstructionCodeType::Store_B,tk.i_val);
                 break;
             case TokenType::Jump:
                 tk=next_token();
@@ -265,12 +303,35 @@ void Parser::parse()
                     exit(1);
                 }
                 return;
+            case TokenType::Func_Start:
+                tk=next_token();
+                func_addr[tk.s_val]=gen.now_count();
+                parse();
+                gen.AddCode(InstructionCodeType::Return);
+                break;
+            case TokenType::Func_End:
+                return;
+            case TokenType::Invoke:
+                tk=next_token();
+                gen.AddCode(InstructionCodeType::Push_Return_Stack,gen.now_count()+2);
+                gen.AddCode(InstructionCodeType::Invoke,func_addr[tk.s_val]);
+                break;
+            case TokenType::Stack_Size:
+                tk=next_token();
+                gen.AddCode(InstructionCodeType::Set_Stack_Size,tk.i_val);
+                break;
+            case TokenType::Return:
+                gen.AddCode(InstructionCodeType::Return);
+                break;
             case TokenType::Break:
                 gen.AddCode(InstructionCodeType::Jump,-1);
                 loop_end_addr.top().push_back(gen.now_count());
                 break;
             case TokenType::End_Token:
                 loop_f=true;
+                break;
+            case TokenType::Entry_Point:
+                entry_point=gen.now_count();
                 break;
             default:
                 std::cout<<tk.s_val<<std::endl;

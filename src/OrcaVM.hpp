@@ -14,6 +14,8 @@
 
 #define Static_Memory_Size 100000
 
+#define Call_Stack_Size 100000
+
 enum class InstructionCodeType //命令コードの種類
 {
     Push_I,Push_F,Push_S,Push_B,
@@ -40,7 +42,7 @@ enum class InstructionCodeType //命令コードの種類
     
     GE_I,GE_F,
 
-    E_I,E_F,
+    E_I,E_F,E_S,
 
     NE_I,NE_F,
 
@@ -55,6 +57,18 @@ enum class InstructionCodeType //命令コードの種類
     G_Store_I,G_Store_F,G_Store_S,G_Store_B,
 
     G_Load_I,G_Load_F,G_Load_S,G_Load_B,
+
+    Store_I,Store_F,Store_S,Store_B,
+
+    Load_I,Load_F,Load_S,Load_B,
+
+    Return,
+
+    Invoke,
+
+    Push_Return_Stack,
+
+    Set_Stack_Size,
 };
 
 struct InstructionCode //命令コード

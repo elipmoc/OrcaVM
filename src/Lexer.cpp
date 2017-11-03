@@ -176,6 +176,7 @@ void Lexer::init_token_map()
     token_map["ge_f"]=TokenType::Ge_F;
     token_map["e_i"]=TokenType::E_I;
     token_map["e_f"]=TokenType::E_F;
+    token_map["e_s"]=TokenType::E_S;
     token_map["ne_i"]=TokenType::Ne_I;
     token_map["ne_f"]=TokenType::Ne_F;
     token_map["or"]=TokenType::Or;
@@ -188,6 +189,14 @@ void Lexer::init_token_map()
     token_map["g_store_f"]=TokenType::G_Store_F;
     token_map["g_store_s"]=TokenType::G_Store_S;
     token_map["g_store_b"]=TokenType::G_Store_B;
+    token_map["load_i"]=TokenType::Load_I;
+    token_map["load_f"]=TokenType::Load_F;
+    token_map["load_s"]=TokenType::Load_S;
+    token_map["load_b"]=TokenType::Load_B;
+    token_map["store_i"]=TokenType::Store_I;
+    token_map["store_f"]=TokenType::Store_F;
+    token_map["store_s"]=TokenType::Store_S;
+    token_map["store_b"]=TokenType::Store_B;
     token_map["output"]=TokenType::Output;
     token_map["input"]=TokenType::Input;
     token_map["jump"]=TokenType::Jump;
@@ -204,8 +213,14 @@ void Lexer::init_token_map()
     token_map["stoi"]=TokenType::StoI;
     token_map["stof"]=TokenType::StoF;
     token_map[".loop"]=TokenType::Loop_Start;
-    token_map[".loopend"]=TokenType::Loop_End;
+    token_map[".loop_end"]=TokenType::Loop_End;
     token_map[".break"]=TokenType::Break;
+    token_map[".func"]=TokenType::Func_Start;
+    token_map[".func_end"]=TokenType::Func_End;
+    token_map["return"]=TokenType::Return;
+    token_map["invoke"]=TokenType::Invoke;
+    token_map[".stack_size"]=TokenType::Stack_Size;
+    token_map[".entry_point"]=TokenType::Entry_Point;
 }
 
 void Lexer::skip_space()
