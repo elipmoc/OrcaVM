@@ -11,7 +11,7 @@
 #include <array>
 #include <ctype.h>
 
-#define Debug
+//#define Debug
 
 #define Static_Memory_Size 100000
 

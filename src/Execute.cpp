@@ -95,6 +95,12 @@ void ExecuteCode::execute()
 
     for(;code_counter<size;++code_counter)
     {
+        #ifdef Debug
+
+        std::cout<<"execute : "<<code_counter<<std::endl;
+
+        #endif
+
         (this->*code_translater[code[code_counter].type])();
     }
 }

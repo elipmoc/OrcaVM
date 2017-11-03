@@ -252,8 +252,8 @@ void Parser::parse()
                 
                 tk=next_token();
                 
-                
                 gen.AddCode(InstructionCodeType::Store_I,local_var_addr.top()[tk.s_val]);
+
                 break;
 
             case TokenType::Store_F:
