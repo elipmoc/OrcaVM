@@ -121,6 +121,19 @@ void Lexer::start()
 
             token_list.push_back(tk);
         }
+        else if(c=='$')
+        {
+            std::string var_str;
+
+            for(c=next_char();isdigit(c) || isalpha(c) || c=='_';c=next_char())var_str+=c;
+
+            Token tk;
+
+            tk.type=TokenType::VarName;
+            tk.s_val=var_str;
+
+            token_list.push_back(tk);
+        }
 
         if(check_size())
         {
@@ -221,6 +234,7 @@ void Lexer::init_token_map()
     token_map["invoke"]=TokenType::Invoke;
     token_map[".stack_size"]=TokenType::Stack_Size;
     token_map[".entry_point"]=TokenType::Entry_Point;
+    token_map["def"]=TokenType::DefVar;
 }
 
 void Lexer::skip_space()

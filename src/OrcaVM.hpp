@@ -8,6 +8,7 @@
 #include <unordered_map>
 #include <stack>
 #include <fstream>
+#include <array>
 #include <ctype.h>
 
 #define Debug
@@ -15,6 +16,8 @@
 #define Static_Memory_Size 100000
 
 #define Call_Stack_Size 100000
+
+#define Return_Stack_Size 100000
 
 enum class InstructionCodeType //命令コードの種類
 {
