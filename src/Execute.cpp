@@ -98,6 +98,7 @@ void ExecuteCode::init_code_translater()
     code_translater[InstructionCodeType::Return]=&ExecuteCode::return_;
     code_translater[InstructionCodeType::Set_Stack_Size]=&ExecuteCode::set_call_stack_size;
     code_translater[InstructionCodeType::Invoke]=&ExecuteCode::invoke;
+    code_translater[InstructionCodeType::Exit]=&ExecuteCode::exit_;
     code_translater[InstructionCodeType::Push_Return_Stack]=&ExecuteCode::push_return_stack;
 }
 
@@ -116,6 +117,8 @@ void ExecuteCode::execute()
         std::cout<<"execute : "<<code_counter<<std::endl;
 
         #endif
+
+        if(exit_flag)break;
 
         (this->*code_translater[code[code_counter].type])();
     }
@@ -851,4 +854,12 @@ void ExecuteCode::set_call_stack_size()
 void ExecuteCode::push_return_stack()
 {
     return_stack.push(code[code_counter].opr_i);
+}
+
+
+/*** exit ***/
+
+void ExecuteCode::exit_()
+{
+    exit_flag=true;
 }

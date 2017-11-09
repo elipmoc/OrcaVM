@@ -39,6 +39,8 @@ class ExecuteCode
 
         Memory *stack_ptr;
 
+        bool exit_flag=false;
+
         inline Stack pop();
 
         void push_i();
@@ -130,6 +132,8 @@ class ExecuteCode
         void aload_b();
 
         void return_();
+
+        void exit_();
 
         void invoke();
 

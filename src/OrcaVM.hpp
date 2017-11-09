@@ -80,6 +80,8 @@ enum class InstructionCodeType //命令コードの種類
     Push_Return_Stack,
 
     Set_Stack_Size,
+
+    Exit,
 };
 
 struct InstructionCode //命令コード

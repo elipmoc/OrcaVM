@@ -251,6 +251,7 @@ void Lexer::init_token_map()
     token_map[".stack_size"]=TokenType::Stack_Size;
     token_map[".entry_point"]=TokenType::Entry_Point;
     token_map["def"]=TokenType::DefVar;
+    token_map[".exit"]=TokenType::Exit;
 }
 
 void Lexer::skip_space()

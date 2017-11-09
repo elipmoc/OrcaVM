@@ -9,6 +9,7 @@ class Parser
 
         std::unordered_map<std::string,int> label_place;
         std::unordered_map<std::string,std::vector<int>> backpatch_label;
+        std::unordered_map<std::string,std::vector<int>> backpatch_func;
         std::unordered_map<std::string,int> func_addr;
         std::stack<std::unordered_map<std::string,int>> local_var_addr;
         std::unordered_map<std::string,int> global_var_addr;
@@ -21,6 +22,7 @@ class Parser
         std::stack<std::array<bool,Call_Stack_Size>> stack_memory_sim;
 
         void backpatch_l(std::string,int);
+        void backpatch_f(std::string,int);
         
         CodeGenerator gen;
 

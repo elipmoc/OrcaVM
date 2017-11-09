@@ -90,6 +90,7 @@ void dump_code(std::vector<InstructionCode> code_list)
             case InstructionCodeType::Return: std::cout<<code_cnt<<" : [Return]"<<std::endl; break;
             case InstructionCodeType::Push_Return_Stack: std::cout<<code_cnt<<" : [Push_Return_Stack] : "<<code.opr_i<<std::endl; break;
             case InstructionCodeType::Set_Stack_Size: std::cout<<code_cnt<<" : [Set_Stack_Size] : "<<code.opr_i<<std::endl; break;
+            case InstructionCodeType::Exit: std::cout<<code_cnt<<" : [Exit]"<<std::endl; break;
             default: std::cerr<<"code dump error"<<std::endl; exit(1);
         }
 

@@ -35,6 +35,7 @@ enum class TokenType
     Func_Start,Func_End,
     Return,
     Invoke,
+    Exit,
     Stack_Size,
     Entry_Point,
     Loop_Start,Loop_End,Break,

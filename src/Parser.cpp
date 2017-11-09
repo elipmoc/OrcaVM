@@ -586,8 +586,10 @@ void Parser::parse()
             {
                 
                 tk=next_token();
-                
+
                 func_addr[tk.s_val]=gen.now_count();
+
+                backpatch_f(tk.s_val,func_addr[tk.s_val]);
                 
                 in_func++;
                 
@@ -614,12 +616,24 @@ void Parser::parse()
             case TokenType::Func_End:
                 return;
 
+            case TokenType::Exit:
+
+                gen.AddCode(InstructionCodeType::Exit);
+
+                break;
+
             case TokenType::Invoke:
 
                 tk=next_token();
 
                 gen.AddCode(InstructionCodeType::Push_Return_Stack,gen.now_count()+2);
-                gen.AddCode(InstructionCodeType::Invoke,func_addr[tk.s_val]);
+
+                if(func_addr.count(tk.s_val)==0)
+                {
+                    gen.AddCode(InstructionCodeType::Invoke,-1);
+                    backpatch_func[tk.s_val].push_back(gen.now_count());
+                }
+                else gen.AddCode(InstructionCodeType::Invoke,func_addr[tk.s_val]);
 
                 break;
 
@@ -670,6 +684,14 @@ void Parser::parse()
 void Parser::backpatch_l(std::string name,int addr)
 {
     for(auto place:backpatch_label[name])
+    {
+        gen.backpatch_addr(place,addr);
+    }
+}
+
+void Parser::backpatch_f(std::string name,int addr)
+{
+    for(auto place:backpatch_func[name])
     {
         gen.backpatch_addr(place,addr);
     }
