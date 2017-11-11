@@ -264,6 +264,14 @@ void Parser::parse()
 
                 break;
 
+            case TokenType::Load_A:
+
+                tk=next_token();
+
+                gen.AddCode(InstructionCodeType::Load_A,local_var_addr.top()[tk.s_val]);
+
+                break;
+
             case TokenType::Store_I:
                 
                 tk=next_token();
@@ -293,6 +301,14 @@ void Parser::parse()
                 tk=next_token();
 
                 gen.AddCode(InstructionCodeType::Store_B,local_var_addr.top()[tk.s_val]);
+
+                break;
+
+            case TokenType::Store_A:
+
+                tk=next_token();
+
+                gen.AddCode(InstructionCodeType::Store_A,local_var_addr.top()[tk.s_val]);
 
                 break;
 

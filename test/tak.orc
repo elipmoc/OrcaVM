@@ -48,8 +48,8 @@
 
 .entry_point
 
-push_i 12
 push_i 6
+push_i 3
 push_i 0
 
 invoke tak

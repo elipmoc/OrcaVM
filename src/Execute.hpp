@@ -38,9 +38,11 @@ class ExecuteCode
 
         Memory *static_base;
 
-        Memory *call_stack;
+        Memory **call_stack;
 
-        Memory *stack_ptr;
+        Memory *call_base;
+
+        Memory **stack_ptr;
 
         bool exit_flag=false;
 

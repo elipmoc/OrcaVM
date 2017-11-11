@@ -208,10 +208,12 @@ void Lexer::init_token_map()
     token_map["load_f"]=TokenType::Load_F;
     token_map["load_s"]=TokenType::Load_S;
     token_map["load_b"]=TokenType::Load_B;
+    token_map["load_a"]=TokenType::Load_A;
     token_map["store_i"]=TokenType::Store_I;
     token_map["store_f"]=TokenType::Store_F;
     token_map["store_s"]=TokenType::Store_S;
     token_map["store_b"]=TokenType::Store_B;
+    token_map["store_a"]=TokenType::Store_A;
     token_map["g_aload_i"]=TokenType::G_ALoad_I;
     token_map["g_aload_f"]=TokenType::G_ALoad_F;
     token_map["g_aload_s"]=TokenType::G_ALoad_S;

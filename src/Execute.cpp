@@ -9,7 +9,8 @@ ExecuteCode::ExecuteCode(const std::vector<InstructionCode>& code,const int entr
 
     static_memory=new Memory*[Static_Memory_Size];
     static_base=new Memory[Static_Memory_Size];
-    call_stack=new Memory[Call_Stack_Size];
+    call_base=new Memory[Call_Stack_Size];
+    call_stack=new Memory*[Call_Stack_Size];
 
     call_stack_size.push(0);
 
@@ -19,12 +20,18 @@ ExecuteCode::ExecuteCode(const std::vector<InstructionCode>& code,const int entr
     {
         static_memory[i]=static_base+i;
     }
+
+    for(int i=0;i<Static_Memory_Size;++i)
+    {
+        call_stack[i]=call_base+i;
+    }
 }
 
 ExecuteCode::~ExecuteCode()
 {
     delete[] static_memory;
     delete[] static_base;
+    delete[] call_base;
     delete[] call_stack;
 }
 
@@ -622,29 +629,29 @@ void ExecuteCode::g_load_a()
 
 void ExecuteCode::store_i()
 {
-    (stack_ptr+code[code_counter].opr_i)->i_val=pop().i_val;
+    (*(stack_ptr+code[code_counter].opr_i))->i_val=pop().i_val;
 }
 
 void ExecuteCode::store_f()
 {
-    (stack_ptr+code[code_counter].opr_i)->f_val=pop().f_val;
+    (*(stack_ptr+code[code_counter].opr_i))->f_val=pop().f_val;
 }
 
 void ExecuteCode::store_s()
 {
-    (stack_ptr+code[code_counter].opr_i)->s_val=pop().s_val;
+    (*(stack_ptr+code[code_counter].opr_i))->s_val=pop().s_val;
 }
 
 void ExecuteCode::store_b()
 {
-    (stack_ptr+code[code_counter].opr_i)->b_val=pop().b_val;
+    (*(stack_ptr+code[code_counter].opr_i))->b_val=pop().b_val;
 }
 
 void ExecuteCode::load_i()
 {
     Stack st;
 
-    st.i_val=(stack_ptr+code[code_counter].opr_i)->i_val;
+    st.i_val=(*(stack_ptr+code[code_counter].opr_i))->i_val;
 
     data_stack.push(st);
 }
@@ -653,7 +660,7 @@ void ExecuteCode::load_f()
 {
     Stack st;
 
-    st.f_val=(stack_ptr+code[code_counter].opr_i)->f_val;
+    st.f_val=(*(stack_ptr+code[code_counter].opr_i))->f_val;
 
     data_stack.push(st);
 }
@@ -663,7 +670,7 @@ void ExecuteCode::load_s()
 {
     Stack st;
 
-    st.s_val=(stack_ptr+code[code_counter].opr_i)->s_val;
+    st.s_val=(*(stack_ptr+code[code_counter].opr_i))->s_val;
 
     data_stack.push(st);
 }
@@ -673,19 +680,27 @@ void ExecuteCode::load_b()
 {
     Stack st;
 
-    st.b_val=(stack_ptr+code[code_counter].opr_i)->b_val;
+    st.b_val=(*(stack_ptr+code[code_counter].opr_i))->b_val;
 
     data_stack.push(st);
 }
 
 void ExecuteCode::store_a()
 {
+    *(stack_ptr+code[code_counter].opr_i)=pop().ref;
 
+    std::cout<<*(stack_ptr+code[code_counter].opr_i)<<std::endl;
 }
 
 void ExecuteCode::load_a()
 {
+    Stack st;
 
+    st.ref=(*stack_ptr+code[code_counter].opr_i);
+
+    std::cout<<st.ref<<std::endl;
+
+    data_stack.push(st);
 }
 
 
@@ -752,7 +767,7 @@ void ExecuteCode::aload_i()
 {
     Stack st;
 
-    st.i_val=(stack_ptr+code[code_counter].opr_i+pop().i_val)->i_val;
+    st.i_val=(*stack_ptr+code[code_counter].opr_i+pop().i_val)->i_val;
 
     data_stack.push(st);
 }
@@ -761,7 +776,7 @@ void ExecuteCode::aload_f()
 {
     Stack st;
 
-    st.f_val=(stack_ptr+code[code_counter].opr_i+pop().i_val)->f_val;
+    st.f_val=(*stack_ptr+code[code_counter].opr_i+pop().i_val)->f_val;
 
     data_stack.push(st);
 }
@@ -770,7 +785,7 @@ void ExecuteCode::aload_s()
 {
     Stack st;
 
-    st.s_val=(stack_ptr+code[code_counter].opr_i+pop().i_val)->s_val;
+    st.s_val=(*stack_ptr+code[code_counter].opr_i+pop().i_val)->s_val;
 
     data_stack.push(st);
 }
@@ -779,29 +794,29 @@ void ExecuteCode::aload_b()
 {
     Stack st;
 
-    st.b_val=(stack_ptr+code[code_counter].opr_i+pop().i_val)->b_val;
+    st.b_val=(*stack_ptr+code[code_counter].opr_i+pop().i_val)->b_val;
 
     data_stack.push(st);
 }
 
 void ExecuteCode::astore_i()
 {
-    (stack_ptr+code[code_counter].opr_i+pop().i_val)->i_val=pop().i_val;
+    (*stack_ptr+code[code_counter].opr_i+pop().i_val)->i_val=pop().i_val;
 }
 
 void ExecuteCode::astore_f()
 {
-    (stack_ptr+code[code_counter].opr_i+pop().i_val)->f_val=pop().f_val;
+    (*stack_ptr+code[code_counter].opr_i+pop().i_val)->f_val=pop().f_val;
 }
 
 void ExecuteCode::astore_s()
 {
-    (stack_ptr+code[code_counter].opr_i+pop().i_val)->s_val=pop().s_val;
+    (*stack_ptr+code[code_counter].opr_i+pop().i_val)->s_val=pop().s_val;
 }
 
 void ExecuteCode::astore_b()
 {
-    (stack_ptr+code[code_counter].opr_i+pop().i_val)->b_val=pop().b_val;
+    (*stack_ptr+code[code_counter].opr_i+pop().i_val)->b_val=pop().b_val;
 }
 
 void ExecuteCode::g_astore_a()
