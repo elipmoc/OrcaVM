@@ -24,6 +24,7 @@ ExecuteCode::ExecuteCode(const std::vector<InstructionCode>& code,const int entr
 ExecuteCode::~ExecuteCode()
 {
     delete[] static_memory;
+    delete[] static_base;
     delete[] call_stack;
 }
 
