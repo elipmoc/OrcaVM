@@ -7,12 +7,18 @@ ExecuteCode::ExecuteCode(const std::vector<InstructionCode>& code,const int entr
     this->code=code;
     this->init_code_translater();
 
-    static_memory=new Memory[Static_Memory_Size];
+    static_memory=new Memory*[Static_Memory_Size];
+    static_base=new Memory[Static_Memory_Size];
     call_stack=new Memory[Call_Stack_Size];
 
     call_stack_size.push(0);
 
     stack_ptr=call_stack;
+
+    for(int i=0;i<Static_Memory_Size;++i)
+    {
+        static_memory[i]=static_base+i;
+    }
 }
 
 ExecuteCode::~ExecuteCode()
@@ -59,34 +65,42 @@ void ExecuteCode::init_code_translater()
     code_translater[InstructionCodeType::G_Store_F]=&ExecuteCode::g_store_f;
     code_translater[InstructionCodeType::G_Store_S]=&ExecuteCode::g_store_s;
     code_translater[InstructionCodeType::G_Store_B]=&ExecuteCode::g_store_b;
+    code_translater[InstructionCodeType::G_Store_A]=&ExecuteCode::g_store_a;
     code_translater[InstructionCodeType::G_Load_I]=&ExecuteCode::g_load_i;
     code_translater[InstructionCodeType::G_Load_F]=&ExecuteCode::g_load_f;
     code_translater[InstructionCodeType::G_Load_S]=&ExecuteCode::g_load_s;
     code_translater[InstructionCodeType::G_Load_B]=&ExecuteCode::g_load_b;
+    code_translater[InstructionCodeType::G_Load_A]=&ExecuteCode::g_load_a;
     code_translater[InstructionCodeType::Store_I]=&ExecuteCode::store_i;
     code_translater[InstructionCodeType::Store_F]=&ExecuteCode::store_f;
     code_translater[InstructionCodeType::Store_S]=&ExecuteCode::store_s;
     code_translater[InstructionCodeType::Store_B]=&ExecuteCode::store_b;
+    code_translater[InstructionCodeType::Store_A]=&ExecuteCode::store_a;
     code_translater[InstructionCodeType::Load_I]=&ExecuteCode::load_i;
     code_translater[InstructionCodeType::Load_F]=&ExecuteCode::load_f;
     code_translater[InstructionCodeType::Load_S]=&ExecuteCode::load_s;
     code_translater[InstructionCodeType::Load_B]=&ExecuteCode::load_b;
+    code_translater[InstructionCodeType::Load_A]=&ExecuteCode::load_a;
     code_translater[InstructionCodeType::G_AStore_I]=&ExecuteCode::g_astore_i;
     code_translater[InstructionCodeType::G_AStore_F]=&ExecuteCode::g_astore_f;
     code_translater[InstructionCodeType::G_AStore_S]=&ExecuteCode::g_astore_s;
     code_translater[InstructionCodeType::G_AStore_B]=&ExecuteCode::g_astore_b;
+    code_translater[InstructionCodeType::G_AStore_A]=&ExecuteCode::g_astore_a;
     code_translater[InstructionCodeType::G_ALoad_I]=&ExecuteCode::g_aload_i;
     code_translater[InstructionCodeType::G_ALoad_F]=&ExecuteCode::g_aload_f;
     code_translater[InstructionCodeType::G_ALoad_S]=&ExecuteCode::g_aload_s;
     code_translater[InstructionCodeType::G_ALoad_B]=&ExecuteCode::g_aload_b;
+    code_translater[InstructionCodeType::G_ALoad_A]=&ExecuteCode::g_aload_a;
     code_translater[InstructionCodeType::AStore_I]=&ExecuteCode::astore_i;
     code_translater[InstructionCodeType::AStore_F]=&ExecuteCode::astore_f;
     code_translater[InstructionCodeType::AStore_S]=&ExecuteCode::astore_s;
     code_translater[InstructionCodeType::AStore_B]=&ExecuteCode::astore_b;
+    code_translater[InstructionCodeType::AStore_A]=&ExecuteCode::astore_a;
     code_translater[InstructionCodeType::ALoad_I]=&ExecuteCode::aload_i;
     code_translater[InstructionCodeType::ALoad_F]=&ExecuteCode::aload_f;
     code_translater[InstructionCodeType::ALoad_S]=&ExecuteCode::aload_s;
     code_translater[InstructionCodeType::ALoad_B]=&ExecuteCode::aload_b;
+    code_translater[InstructionCodeType::ALoad_A]=&ExecuteCode::aload_a;
     code_translater[InstructionCodeType::Or]=&ExecuteCode::Or;
     code_translater[InstructionCodeType::And]=&ExecuteCode::And;
     code_translater[InstructionCodeType::ItoF]=&ExecuteCode::itof;
@@ -533,29 +547,29 @@ void ExecuteCode::jump_false()
 
 void ExecuteCode::g_store_i()
 {
-    static_memory[code[code_counter].opr_i].i_val=pop().i_val;
+    static_memory[code[code_counter].opr_i]->i_val=pop().i_val;
 }
 
 void ExecuteCode::g_store_f()
 {
-    static_memory[code[code_counter].opr_i].f_val=pop().f_val;
+    static_memory[code[code_counter].opr_i]->f_val=pop().f_val;
 }
 
 void ExecuteCode::g_store_s()
 {
-    static_memory[code[code_counter].opr_i].s_val=pop().s_val;
+    static_memory[code[code_counter].opr_i]->s_val=pop().s_val;
 }
 
 void ExecuteCode::g_store_b()
 {
-    static_memory[code[code_counter].opr_i].b_val=pop().b_val;
+    static_memory[code[code_counter].opr_i]->b_val=pop().b_val;
 }
 
 void ExecuteCode::g_load_i()
 {
     Stack st;
 
-    st.i_val=static_memory[code[code_counter].opr_i].i_val;
+    st.i_val=static_memory[code[code_counter].opr_i]->i_val;
 
     data_stack.push(st);
 }
@@ -564,7 +578,7 @@ void ExecuteCode::g_load_f()
 {
     Stack st;
 
-    st.f_val=static_memory[code[code_counter].opr_i].f_val;
+    st.f_val=static_memory[code[code_counter].opr_i]->f_val;
 
     data_stack.push(st);
 }
@@ -573,7 +587,7 @@ void ExecuteCode::g_load_s()
 {
     Stack st;
 
-    st.s_val=static_memory[code[code_counter].opr_i].s_val;
+    st.s_val=static_memory[code[code_counter].opr_i]->s_val;
 
     data_stack.push(st);
 }
@@ -582,7 +596,21 @@ void ExecuteCode::g_load_b()
 {
     Stack st;
 
-    st.b_val=static_memory[code[code_counter].opr_i].b_val;
+    st.b_val=static_memory[code[code_counter].opr_i]->b_val;
+
+    data_stack.push(st);
+}
+
+void ExecuteCode::g_store_a()
+{
+    static_memory[code[code_counter].opr_i]=pop().ref;
+}
+
+void ExecuteCode::g_load_a()
+{
+    Stack st;
+
+    st.ref=static_memory[code[code_counter].opr_i];
 
     data_stack.push(st);
 }
@@ -649,6 +677,15 @@ void ExecuteCode::load_b()
     data_stack.push(st);
 }
 
+void ExecuteCode::store_a()
+{
+
+}
+
+void ExecuteCode::load_a()
+{
+
+}
 
 
 /*** array ***/
@@ -658,7 +695,7 @@ void ExecuteCode::g_aload_i()
 {
     Stack st;
 
-    st.i_val=static_memory[code[code_counter].opr_i+pop().i_val].i_val;
+    st.i_val=static_memory[code[code_counter].opr_i+pop().i_val]->i_val;
 
     data_stack.push(st);
 }
@@ -667,7 +704,7 @@ void ExecuteCode::g_aload_f()
 {
     Stack st;
 
-    st.f_val=static_memory[code[code_counter].opr_i+pop().i_val].f_val;
+    st.f_val=static_memory[code[code_counter].opr_i+pop().i_val]->f_val;
 
     data_stack.push(st);
 }
@@ -676,7 +713,7 @@ void ExecuteCode::g_aload_s()
 {
     Stack st;
 
-    st.s_val=static_memory[code[code_counter].opr_i+pop().i_val].s_val;
+    st.s_val=static_memory[code[code_counter].opr_i+pop().i_val]->s_val;
 
     data_stack.push(st);
 }
@@ -685,29 +722,29 @@ void ExecuteCode::g_aload_b()
 {
     Stack st;
 
-    st.b_val=static_memory[code[code_counter].opr_i+pop().i_val].b_val;
+    st.b_val=static_memory[code[code_counter].opr_i+pop().i_val]->b_val;
 
     data_stack.push(st);
 }
 
 void ExecuteCode::g_astore_i()
 {
-    static_memory[code[code_counter].opr_i+pop().i_val].i_val=pop().i_val;
+    static_memory[code[code_counter].opr_i+pop().i_val]->i_val=pop().i_val;
 }
 
 void ExecuteCode::g_astore_f()
 {
-    static_memory[code[code_counter].opr_i+pop().i_val].f_val=pop().f_val;
+    static_memory[code[code_counter].opr_i+pop().i_val]->f_val=pop().f_val;
 }
 
 void ExecuteCode::g_astore_s()
 {
-    static_memory[code[code_counter].opr_i+pop().i_val].s_val=pop().s_val;
+    static_memory[code[code_counter].opr_i+pop().i_val]->s_val=pop().s_val;
 }
 
 void ExecuteCode::g_astore_b()
 {
-    static_memory[code[code_counter].opr_i+pop().i_val].b_val=pop().b_val;
+    static_memory[code[code_counter].opr_i+pop().i_val]->b_val=pop().b_val;
 }
 
 void ExecuteCode::aload_i()
@@ -764,6 +801,26 @@ void ExecuteCode::astore_s()
 void ExecuteCode::astore_b()
 {
     (stack_ptr+code[code_counter].opr_i+pop().i_val)->b_val=pop().b_val;
+}
+
+void ExecuteCode::g_astore_a()
+{
+
+}
+
+void ExecuteCode::g_aload_a()
+{
+
+}
+
+void ExecuteCode::astore_a()
+{
+
+}
+
+void ExecuteCode::aload_a()
+{
+    
 }
 
 

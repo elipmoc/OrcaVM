@@ -184,6 +184,14 @@ void Parser::parse()
 
                 break;
 
+            case TokenType::G_Load_A:
+
+                tk=next_token();
+
+                gen.AddCode(InstructionCodeType::G_Load_A,global_var_addr[tk.s_val]);
+
+                break;
+
             case TokenType::G_Store_I:
 
                 tk=next_token();
@@ -213,6 +221,14 @@ void Parser::parse()
                 tk=next_token();
 
                 gen.AddCode(InstructionCodeType::G_Store_B,global_var_addr[tk.s_val]);
+
+                break;
+
+            case TokenType::G_Store_A:
+
+                tk=next_token();
+
+                gen.AddCode(InstructionCodeType::G_Store_A,global_var_addr[tk.s_val]);
 
                 break;
 
@@ -486,7 +502,7 @@ void Parser::parse()
                 {
                     local_var_addr.top()[var_name]=get_addr_stack();
 
-                    for(int i=0;i<tk.i_val;++i)stack_memory_sim.top()[global_var_addr[var_name]+i]=true;
+                    for(int i=0;i<tk.i_val;++i)stack_memory_sim.top()[local_var_addr.top()[var_name]+i]=true;
                 }
 
                 break;

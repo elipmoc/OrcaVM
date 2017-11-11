@@ -1,7 +1,7 @@
 #ifndef EXECUTE_HPP
 #define EXECUTE_HPP
 
-struct Stack
+struct Memory
 {
     int i_val;
     double f_val;
@@ -9,12 +9,13 @@ struct Stack
     bool b_val;
 };
 
-struct Memory
+struct Stack
 {
     int i_val;
     double f_val;
     std::string s_val;
     bool b_val;
+    Memory *ref;
 };
 
 class ExecuteCode
@@ -33,7 +34,9 @@ class ExecuteCode
 
         std::stack<int> call_stack_size;
 
-        Memory *static_memory;
+        Memory **static_memory;
+
+        Memory *static_base;
 
         Memory *call_stack;
 
@@ -95,41 +98,49 @@ class ExecuteCode
         void g_store_f();
         void g_store_s();
         void g_store_b();
+        void g_store_a();
 
         void g_load_i();
         void g_load_f();
         void g_load_s();
         void g_load_b();
+        void g_load_a();
 
         void store_i();
         void store_f();
         void store_s();
         void store_b();
+        void store_a();
 
         void load_i();
         void load_f();
         void load_s();
         void load_b();
+        void load_a();
 
         void g_astore_i();
         void g_astore_f();
         void g_astore_s();
         void g_astore_b();
+        void g_astore_a();
 
         void g_aload_i();
         void g_aload_f();
         void g_aload_s();
         void g_aload_b();
+        void g_aload_a();
 
         void astore_i();
         void astore_f();
         void astore_s();
         void astore_b();
+        void astore_a();
 
         void aload_i();
         void aload_f();
         void aload_s();
         void aload_b();
+        void aload_a();
 
         void return_();
 

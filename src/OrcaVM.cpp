@@ -52,10 +52,12 @@ void dump_code(std::vector<InstructionCode> code_list)
             case InstructionCodeType::G_Store_F: std::cout<<code_cnt<<" : [G_Store_F] : "<<code.opr_i<<std::endl; break;
             case InstructionCodeType::G_Store_S: std::cout<<code_cnt<<" : [G_Store_S] : "<<code.opr_i<<std::endl; break;
             case InstructionCodeType::G_Store_B: std::cout<<code_cnt<<" : [G_Store_B] : "<<code.opr_i<<std::endl; break;
+            case InstructionCodeType::G_Store_A: std::cout<<code_cnt<<" : [G_Store_A] : "<<code.opr_i<<std::endl; break;
             case InstructionCodeType::G_Load_I: std::cout<<code_cnt<<" : [G_Load_I] : "<<code.opr_i<<std::endl; break;
             case InstructionCodeType::G_Load_F: std::cout<<code_cnt<<" : [G_Load_F] : "<<code.opr_i<<std::endl; break;
             case InstructionCodeType::G_Load_S: std::cout<<code_cnt<<" : [G_Load_S] : "<<code.opr_i<<std::endl; break;
             case InstructionCodeType::G_Load_B: std::cout<<code_cnt<<" : [G_Load_B] : "<<code.opr_i<<std::endl; break;
+            case InstructionCodeType::G_Load_A: std::cout<<code_cnt<<" : [G_Load_A] : "<<code.opr_i<<std::endl; break;
             case InstructionCodeType::Store_I: std::cout<<code_cnt<<" : [Store_I] : "<<code.opr_i<<std::endl; break;
             case InstructionCodeType::Store_F: std::cout<<code_cnt<<" : [Store_F] : "<<code.opr_i<<std::endl; break;
             case InstructionCodeType::Store_S: std::cout<<code_cnt<<" : [Store_S] : "<<code.opr_i<<std::endl; break;
