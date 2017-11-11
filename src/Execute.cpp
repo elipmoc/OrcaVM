@@ -688,8 +688,6 @@ void ExecuteCode::load_b()
 void ExecuteCode::store_a()
 {
     *(stack_ptr+code[code_counter].opr_i)=pop().ref;
-
-    std::cout<<*(stack_ptr+code[code_counter].opr_i)<<std::endl;
 }
 
 void ExecuteCode::load_a()
@@ -697,8 +695,6 @@ void ExecuteCode::load_a()
     Stack st;
 
     st.ref=(*stack_ptr+code[code_counter].opr_i);
-
-    std::cout<<st.ref<<std::endl;
 
     data_stack.push(st);
 }
