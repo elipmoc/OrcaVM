@@ -11,11 +11,11 @@ struct Memory
 
 struct Stack
 {
-    int i_val;
-    double f_val;
-    std::string s_val;
-    bool b_val;
-    Memory *ref;
+    int i_val=0;
+    double f_val=0.0;
+    std::string s_val="";
+    bool b_val=false;
+    Memory *ref=nullptr;
 };
 
 class ExecuteCode

@@ -172,6 +172,7 @@ void ExecuteCode::dump_stack()
         std::cout<<"+ float_value : "<<st.f_val<<std::endl;
         std::cout<<"+ string_value : "<<st.s_val<<std::endl;
         std::cout<<"+ boolean_value : "<<st.b_val<<std::endl;
+        std::cout<<"+ reference_value : "<<st.ref<<std::endl;
 
         std::cout<<"\n"<<std::flush;
     }
@@ -739,24 +740,53 @@ void ExecuteCode::g_aload_b()
     data_stack.push(st);
 }
 
+void ExecuteCode::g_aload_a()
+{
+    Stack st;
+
+    st.ref=static_memory[code[code_counter].opr_i+pop().i_val];
+
+    data_stack.push(st);
+}
+
 void ExecuteCode::g_astore_i()
 {
-    static_memory[code[code_counter].opr_i+pop().i_val]->i_val=pop().i_val;
+    int addr=pop().i_val;
+    int i_val=pop().i_val;
+
+    static_memory[code[code_counter].opr_i+addr]->i_val=i_val;
 }
 
 void ExecuteCode::g_astore_f()
 {
-    static_memory[code[code_counter].opr_i+pop().i_val]->f_val=pop().f_val;
+    int addr=pop().i_val;
+    double f_val=pop().f_val;
+
+    static_memory[code[code_counter].opr_i+addr]->f_val=f_val;
 }
 
 void ExecuteCode::g_astore_s()
 {
-    static_memory[code[code_counter].opr_i+pop().i_val]->s_val=pop().s_val;
+    int addr=pop().i_val;
+    std::string s_val=pop().s_val;
+
+    static_memory[code[code_counter].opr_i+addr]->s_val=s_val;
 }
 
 void ExecuteCode::g_astore_b()
 {
-    static_memory[code[code_counter].opr_i+pop().i_val]->b_val=pop().b_val;
+    int addr=pop().i_val;
+    bool b_val=pop().b_val;
+
+    static_memory[code[code_counter].opr_i+addr]->b_val=b_val;
+}
+
+void ExecuteCode::g_astore_a()
+{
+    int addr=pop().i_val;
+    Memory *ref=pop().ref;
+
+    static_memory[code[code_counter].opr_i+addr]=ref;
 }
 
 void ExecuteCode::aload_i()
@@ -795,44 +825,53 @@ void ExecuteCode::aload_b()
     data_stack.push(st);
 }
 
+void ExecuteCode::aload_a()
+{
+    Stack st;
+
+    st.ref=(*stack_ptr+code[code_counter].opr_i+pop().i_val);
+
+    data_stack.push(st);
+}
+
 void ExecuteCode::astore_i()
 {
-    (*stack_ptr+code[code_counter].opr_i+pop().i_val)->i_val=pop().i_val;
+    int addr=pop().i_val;
+    int i_val=pop().i_val;
+
+    (*(stack_ptr+code[code_counter].opr_i+addr))->i_val=i_val;
 }
 
 void ExecuteCode::astore_f()
 {
-    (*stack_ptr+code[code_counter].opr_i+pop().i_val)->f_val=pop().f_val;
+    int addr=pop().i_val;
+    double f_val=pop().f_val;
+
+    (*stack_ptr+code[code_counter].opr_i+addr)->f_val=f_val;
 }
 
 void ExecuteCode::astore_s()
 {
-    (*stack_ptr+code[code_counter].opr_i+pop().i_val)->s_val=pop().s_val;
+    int addr=pop().i_val;
+    std::string s_val=pop().s_val;
+
+    (*(stack_ptr+code[code_counter].opr_i+addr))->s_val=s_val;
 }
 
 void ExecuteCode::astore_b()
 {
-    (*stack_ptr+code[code_counter].opr_i+pop().i_val)->b_val=pop().b_val;
-}
+    int addr=pop().i_val;
+    bool b_val=pop().b_val;
 
-void ExecuteCode::g_astore_a()
-{
-
-}
-
-void ExecuteCode::g_aload_a()
-{
-
+    (*(stack_ptr+code[code_counter].opr_i+addr))->b_val=b_val;
 }
 
 void ExecuteCode::astore_a()
 {
+    int addr=pop().i_val;
+    Memory *ref=pop().ref;
 
-}
-
-void ExecuteCode::aload_a()
-{
-    
+    (*(stack_ptr+code[code_counter].opr_i+addr))=ref;
 }
 
 
