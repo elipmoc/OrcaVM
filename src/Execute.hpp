@@ -84,6 +84,8 @@ class ExecuteCode
         void ftos();
         void stoi();
         void stof();
+        void ctoi();
+        void itoc();
         
         void And();
         void Or();

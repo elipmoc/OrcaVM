@@ -17,6 +17,8 @@ Parser::~Parser()
 
 CodeGenerator Parser::get_code()
 {
+    gen.AddCode(InstructionCodeType::Exit);
+
     return gen;
 }
 
@@ -142,6 +144,12 @@ void Parser::parse()
                 break;
             case TokenType::FtoS:
                 gen.AddCode(InstructionCodeType::FtoS);
+                break;
+            case TokenType::CtoI:
+                gen.AddCode(InstructionCodeType::CtoI);
+                break;
+            case TokenType::ItoC:
+                gen.AddCode(InstructionCodeType::ItoC);
                 break;
             case TokenType::StoI:
                 gen.AddCode(InstructionCodeType::StoI);

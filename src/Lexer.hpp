@@ -19,6 +19,7 @@ enum class TokenType
     ItoF,ItoS,
     FtoI,FtoS,
     StoI,StoF,
+    ItoC,CtoI,
     Or,And,
     G_Load_I,G_Load_F,G_Load_S,G_Load_B,G_Load_A,
     G_Store_I,G_Store_F,G_Store_S,G_Store_B,G_Store_A,

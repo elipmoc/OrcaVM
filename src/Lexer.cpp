@@ -249,6 +249,8 @@ void Lexer::init_token_map()
     token_map["ftos"]=TokenType::FtoS;
     token_map["stoi"]=TokenType::StoI;
     token_map["stof"]=TokenType::StoF;
+    token_map["itoc"]=TokenType::ItoC;
+    token_map["ctoi"]=TokenType::CtoI;
     token_map[".loop"]=TokenType::Loop_Start;
     token_map[".loop_end"]=TokenType::Loop_End;
     token_map[".break"]=TokenType::Break;

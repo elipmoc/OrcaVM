@@ -117,6 +117,8 @@ void ExecuteCode::init_code_translater()
     code_translater[InstructionCodeType::FtoS]=&ExecuteCode::ftos;
     code_translater[InstructionCodeType::StoI]=&ExecuteCode::stoi;
     code_translater[InstructionCodeType::StoF]=&ExecuteCode::stof;
+    code_translater[InstructionCodeType::CtoI]=&ExecuteCode::ctoi;
+    code_translater[InstructionCodeType::ItoC]=&ExecuteCode::itoc;
     code_translater[InstructionCodeType::Return]=&ExecuteCode::return_;
     code_translater[InstructionCodeType::Set_Stack_Size]=&ExecuteCode::set_call_stack_size;
     code_translater[InstructionCodeType::Invoke]=&ExecuteCode::invoke;
@@ -132,7 +134,7 @@ void ExecuteCode::execute()
 {
     size_t size=code.size();
 
-    for(;code_counter<size;++code_counter)
+    for(;;++code_counter)
     {
         #ifdef Debug
 
@@ -928,6 +930,24 @@ void ExecuteCode::stof()
     Stack st;
 
     st.f_val=std::stod(pop().s_val);
+
+    data_stack.push(st);
+}
+
+void ExecuteCode::itoc()
+{
+    Stack st;
+
+    st.s_val=(char)pop().i_val;
+
+    data_stack.push(st);
+}
+
+void ExecuteCode::ctoi()
+{
+    Stack st;
+
+    st.i_val=(int)pop().s_val[0];
 
     data_stack.push(st);
 }

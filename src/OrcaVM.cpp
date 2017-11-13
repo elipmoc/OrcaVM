@@ -90,6 +90,8 @@ void dump_code(std::vector<InstructionCode> code_list)
             case InstructionCodeType::ALoad_A: std::cout<<code_cnt<<" : [ALoad_A] : "<<code.opr_i<<std::endl; break;
             case InstructionCodeType::ItoF: std::cout<<code_cnt<<" : [ItoF]"<<std::endl; break;
             case InstructionCodeType::ItoS: std::cout<<code_cnt<<" : [ItoS]"<<std::endl; break;
+            case InstructionCodeType::ItoC: std::cout<<code_cnt<<" : [ItoC]"<<std::endl; break;
+            case InstructionCodeType::CtoI: std::cout<<code_cnt<<" : [CtoI]"<<std::endl; break;
             case InstructionCodeType::FtoI: std::cout<<code_cnt<<" : [FtoI]"<<std::endl; break;
             case InstructionCodeType::FtoS: std::cout<<code_cnt<<" : [FtoS]"<<std::endl; break;
             case InstructionCodeType::StoI: std::cout<<code_cnt<<" : [StoI]"<<std::endl; break;
@@ -124,11 +126,11 @@ int main(int argc,char **argv)
 
     if(argc>1)
     {
-        while((opt=getopt(argc,argv,"dceo:"))!=-1) //オプションの解析
+        while((opt=getopt(argc,argv,"dcef:"))!=-1) //オプションの解析
         {
             switch(opt)
             {
-                case 'o':
+                case 'f':
                     filename=optarg;
                     file_read_flag=true;
                     break;

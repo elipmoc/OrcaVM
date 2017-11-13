@@ -55,6 +55,8 @@ enum class InstructionCodeType //命令コードの種類
 
     StoI,StoF,
 
+    ItoC,CtoI,
+
     Or,And,
 
     G_Store_I,G_Store_F,G_Store_S,G_Store_B,G_Store_A,
@@ -88,10 +90,10 @@ struct InstructionCode //命令コード
 {
         InstructionCodeType type;
 
-        int opr_i;
-        double opr_f;
-        std::string opr_s;
-        bool opr_b;
+        int opr_i=0;
+        double opr_f=0.0;
+        std::string opr_s="";
+        bool opr_b=false;
 };
 
 #endif
