@@ -3,6 +3,7 @@
 #include "Execute.hpp"
 #include "Lexer.hpp"
 #include "Parser.hpp"
+#include "JIT.hpp"
 
 void dump_code(std::vector<InstructionCode> code_list)
 {
@@ -122,11 +123,13 @@ int main(int argc,char **argv)
 
     bool file_read_flag=false;
 
+    bool jit_flag=false;
+
     char *filename;
 
     if(argc>1)
     {
-        while((opt=getopt(argc,argv,"dcef:"))!=-1) //オプションの解析
+        while((opt=getopt(argc,argv,"dcejf:"))!=-1) //オプションの解析
         {
             switch(opt)
             {
@@ -145,6 +148,10 @@ int main(int argc,char **argv)
 
                 case 'e':
                     entry_point_flag=true;
+                    break;
+
+                case 'j':
+                    jit_flag=true;
                     break;
 
                 default:
@@ -174,25 +181,38 @@ int main(int argc,char **argv)
 
         lexer.start();
 
-        Parser parser(lexer.get_token());
-
-        parser.parse();
-
-        if(entry_point_flag)
+        if(jit_flag)
         {
-            std::cout<<"entry_point : "<<parser.entry_point+1<<std::endl;
-        }
+            JIT jit(lexer.get_token());
 
-        if(dump_code_flag)
+            jit.parse();
+
+            jit.execute();
+        }
+        else
         {
-            dump_code(parser.get_code().get_code());
+            Parser parser(lexer.get_token());
+
+            parser.parse();
+
+            if(entry_point_flag)
+            {
+                std::cout<<"entry_point : "<<parser.entry_point+1<<std::endl;
+            }   
+
+            if(dump_code_flag)
+            {   
+                dump_code(parser.get_code().get_code());
+            }
+            else 
+            {
+                ExecuteCode exec(parser.get_code().get_code(),parser.entry_point+1);
+
+                exec.execute();
+
+                if(dump_stack_flag)exec.dump_stack();
+            }
         }
-
-        ExecuteCode exec(parser.get_code().get_code(),parser.entry_point+1);
-
-        exec.execute();
-
-        if(dump_stack_flag)exec.dump_stack();
     }
 
     return 0;

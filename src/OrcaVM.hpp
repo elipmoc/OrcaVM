@@ -9,9 +9,12 @@
 #include <stack>
 #include <fstream>
 #include <array>
+#include <chrono>
 #include <ctype.h>
 
 //#define Debug
+
+#define Time
 
 #define Static_Memory_Size 100000
 

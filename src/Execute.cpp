@@ -132,8 +132,6 @@ void ExecuteCode::init_code_translater()
 
 void ExecuteCode::execute()
 {
-    size_t size=code.size();
-
     for(;;++code_counter)
     {
         #ifdef Debug
