@@ -16,7 +16,11 @@ class JITCodeGenerator
         void def_func(std::string);
         void end_func();
         void def_main();
+        void push_i(std::string);
+        void push_f(std::string);
         void push_s(std::string);
+        void push_b(std::string);
+        void add_i();
         void output();
 
         JITCodeGenerator();

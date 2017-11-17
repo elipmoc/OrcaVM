@@ -19,11 +19,41 @@ void JIT::parse()
 
         switch(tk.type)
         {
+            case TokenType::Push_I:
+
+                tk=next_token();
+
+                gen.push_i(std::to_string(tk.i_val));
+
+                break;
+
+            case TokenType::Push_F:
+
+                tk=next_token();
+
+                gen.push_f(std::to_string(tk.f_val));
+
+                break;
+
             case TokenType::Push_S:
 
                 tk=next_token();
 
                 gen.push_s(tk.s_val);
+
+                break;
+
+            case TokenType::Push_B:
+
+                tk=next_token();
+
+                gen.push_b(tk.b_val ? std::to_string(1) : std::to_string(0));
+
+                break;
+
+            case TokenType::Add_I:
+
+                gen.add_i();
 
                 break;
 
@@ -109,6 +139,7 @@ JITCodeGenerator::JITCodeGenerator()
     code += "}Stack;\n";
     code += "Stack st[100000];\n";
     code += "Stack s;\n";
+    code += "int i;\n";
     code += "int counter = 0;\n";
     code += "Stack pop(){\ncounter--;\nStack t = st[counter];\nreturn t;\n}\n";
     code += "void push(Stack stk)\n{\nst[counter]=stk;\ncounter++;\n}\n";
@@ -133,6 +164,18 @@ void JITCodeGenerator::def_main()
     main_f=true;
 }
 
+void JITCodeGenerator::push_i(std::string i_val)
+{
+    code += "s.i_val ="+i_val+";\n";
+    code += "push(s);\n";
+}
+
+void JITCodeGenerator::push_f(std::string f_val)
+{
+    code += "s.f_val ="+f_val+";\n";
+    code += "push(s);\n";
+}
+
 void JITCodeGenerator::push_s(std::string s_val)
 {
     std::string o_code;
@@ -151,6 +194,18 @@ void JITCodeGenerator::push_s(std::string s_val)
 
     code += "strcpy(s.s_val,\"" + o_code + "\");\n";
     code += "push(s);\n";
+}
+
+void JITCodeGenerator::push_b(std::string b_val)
+{
+    code += "s.b_val="+b_val+";\n";
+    code += "push(s);\n";
+}
+
+void JITCodeGenerator::add_i()
+{
+    code += "i = pop().i_val + pop().i_val;\n";
+    code += "s.i_val = i;\npush(s);\n";
 }
 
 void JITCodeGenerator::output()
