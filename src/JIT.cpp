@@ -180,7 +180,7 @@ void JITCodeGenerator::push_s(std::string s_val)
 {
     std::string o_code;
 
-    for(int i=0;i<s_val.length();i++)
+    for(size_t i=0;i<s_val.length();i++)
     {
         if(s_val[i]=='\n')
         {
